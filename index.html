@@ -99,7 +99,7 @@
 <h2 id="unrecognized-selector-crash"><a href="#unrecognized-selector-crash" class="headerlink" title="unrecognized selector crash"></a>unrecognized selector crash</h2><p>unrecognized selector类型的crash是经常发生的carsh，我们要解决这个carsh就必须先了解它产生的具体原因和流程。</p>
 <p>什么时候会报unrecognized selector的异常？</p>
 <p>objc在向一个对象发送消息时，runtime库会根据对象的isa指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，如果，在最顶层的父类中依然找不到相应的方法时，程序在运行时会挂掉并抛出异常unrecognized selector sent to XXX</p>
-<p>在找不到方法时，查找方法将会进入方法Forward流程,系统给了三次补救的机会，所以我们要解决这个问题，在这三次均可以解决这个问题<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/rootsearch.png" alt="图片"><br>由上图可见，在一个函数找不到时，runtime提供了三种方式去补救：</p>
+<p>在找不到方法时，查找方法将会进入方法Forward流程,系统给了三次补救的机会，所以我们要解决这个问题，在这三次均可以解决这个问题<br><img src="/MExuanHe.github.io/fancybox/images/rootsearch.png" alt="图片"><br>由上图可见，在一个函数找不到时，runtime提供了三种方式去补救：</p>
 <p>1、调用resolveInstanceMethod给个机会让类添加这个实现这个函数<br>2、调用forwardingTargetForSelector让别的对象去执行这个函数<br>3、调用forwardInvocation（函数执行器)灵活的将目标函数以其他形式执行。</p>
 <p>如果都不中，调用doesNotRecognizeSelector抛出异常。既然可以补救,我们可以用消息转发机制来做，我们选择了第二步forwardingTargetForSelector来做，原因如下：</p>
 <p>1、resolveInstanceMethod 需要在类的本身上动态添加它本身不存在的方法，这些方法对于该类本身来说冗余的</p>
