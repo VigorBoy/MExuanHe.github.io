@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JAVA（本地服务器配置微信支付） | 背水一战</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前沿我是一名iOS开发者 最近由于工作的原因 由我来处理服务器后台集成第三方支付的功能 语言是Java 顺水推舟 就学了下 Java语法  配置需要的工具 ：  JDK：Java 开发包 下载地址 Eclipse ： 服务器开发工具  下载地址 Tomcat ：服务器运行环境   下载地址  创建项目打开Eclipse 首先要配置下我们的Tomcat     教程  创建动态Web项目  配置 W">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA（本地服务器配置微信支付）">
+<meta property="og:url" content="https://github.com/MExuanHe/MExuanHe.github.io/2018/03/26/JAVA%EF%BC%88%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%EF%BC%89/index.html">
+<meta property="og:site_name" content="背水一战">
+<meta property="og:description" content="前沿我是一名iOS开发者 最近由于工作的原因 由我来处理服务器后台集成第三方支付的功能 语言是Java 顺水推舟 就学了下 Java语法  配置需要的工具 ：  JDK：Java 开发包 下载地址 Eclipse ： 服务器开发工具  下载地址 Tomcat ：服务器运行环境   下载地址  创建项目打开Eclipse 首先要配置下我们的Tomcat     教程  创建动态Web项目  配置 W">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdc9a4f9ec.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdce41c1a2.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdcdd7f2ef.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdce7404fa.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdcded075d.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdce9704bf.png">
+<meta property="article:published_time" content="2018-03-25T16:32:33.000Z">
+<meta property="article:modified_time" content="2020-05-26T02:05:40.707Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdc9a4f9ec.png">
+  
+    <link rel="alternate" href="/MExuanHe.github.io/atom.xml" title="背水一战" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/MExuanHe.github.io/" id="logo">背水一战</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/MExuanHe.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/MExuanHe/MExuanHe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JAVA（本地服务器配置微信支付）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/MExuanHe.github.io/2018/03/26/JAVA%EF%BC%88%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%EF%BC%89/" class="article-date">
+  <time datetime="2018-03-25T16:32:33.000Z" itemprop="datePublished">2018-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JAVA（本地服务器配置微信支付）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前沿"><a href="#前沿" class="headerlink" title="前沿"></a>前沿</h1><p>我是一名iOS开发者 最近由于工作的原因 由我来处理服务器后台集成第三方支付的功能 语言是Java 顺水推舟 就学了下 Java语法 </p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>需要的工具 ：</p>
+<ul>
+<li>JDK：Java 开发包 <a href="https://download.csdn.net/download/tan3739/9476575" target="_blank" rel="noopener">下载地址</a></li>
+<li>Eclipse ： 服务器开发工具  <a href="https://www.eclipse.org/downloads/" target="_blank" rel="noopener">下载地址</a></li>
+<li>Tomcat ：服务器运行环境   <a href="http://tomcat.apache.org" target="_blank" rel="noopener">下载地址</a></li>
+</ul>
+<h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p>打开Eclipse 首先要配置下我们的Tomcat     <a href="http://jingyan.baidu.com/article/3065b3b6efa9d7becff8a4c6.html" target="_blank" rel="noopener">教程</a></p>
+<ul>
+<li>创建动态Web项目<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdc9a4f9ec.png" alt="Snip20180410_2.png"></li>
+</ul>
+<p>配置 Web Project  我的Tomcat是8.0 就选择8.0<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdce41c1a2.png" alt="Snip20180410_5.png"></p>
+<p>文件目录<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdcdd7f2ef.png" alt="Snip20180410_9.png"></p>
+<p><strong>需要说明下</strong><br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在WebContent中的lib文件目录下 存放我们的jar 文件</span><br><span class="line">在Java Resources 目录下 存放我们的代码文件</span><br></pre></td></tr></table></figure></p>
+<p>把这两个工具文件拖入到项目中 方便我们快速开发 工具文件我会放到Github上面 <img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdce7404fa.png" alt="Snip20180410_10.png"></p>
+<ul>
+<li><p>创建接口文件<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdcded075d.png" alt="Snip20180410_11.png"></p>
+<figure class="highlight plain"><figcaption><span>是选择哪个文件目录下面</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;Superclass&#96;&#96;&#96; 选择继承&#96;&#96;&#96;HttpServlet</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cbdce9704bf.png" alt="Snip20180410_13.png"></p>
+</li>
+</ul>
+<p>接下来就可以写我们的接口代码了</p>
+<p> 创建几个参数 把相应的信息填写进去</p>
+<pre><code>// 微信开发平台应用id
+public static String APP_ID = &quot;&quot;;
+// 财付通商户号
+public static String PARTNER_ID = &quot;&quot;;
+// 商户号对应的密钥
+public static String PARTNER_KEY = &quot;&quot;;
+// 统一下单
+public static String URL_UNIFIEDORDER = &quot;&quot;;
+// 接收财付通通知的URL
+public static String NOTIFY_URL = &quot;&quot;;</code></pre><p>在 <code>doPost</code> 方法里面处理我们的订单签名</p>
+<p>1.填写签名订单信息</p>
+<ul>
+<li>初始化<code>PrepayIdRequestHandler</code> 类  微信写好一个封装案例,你可以根据服务器需求，自己定义网络请求框架<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PrepayIdRequestHandler handler &#x3D;new PrepayIdRequestHandler(req, resp);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>填写相应的参数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 统一下单的接口(调用微信支付服务器需要的接口)---&gt;公开的</span><br><span class="line">handler.setGateUrl(URL_UNIFIEDORDER);</span><br><span class="line">&#x2F;&#x2F; 设置密钥</span><br><span class="line">handler.setKey(PARTNER_KEY);</span><br><span class="line">&#x2F;&#x2F; 设置应用的ID</span><br><span class="line">handler.setParameter(&quot;appid&quot;, APP_ID);</span><br><span class="line">根据微信文档的要求 填写相应的信息  这里我就不往下写相应的参数信息了 微信文档写的很清楚</span><br><span class="line">唯一想提的是  setParameter 方法就跟iOS里面设置字典一样 都是key和Value</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>2.调用微信统一下单接口(目的：获取prepay_id)</p>
+<ul>
+<li>调用 <code>sendPrepay</code> 方法获取 <code>prepay_id</code>  这里微信返回的数据是XML数据格式  <code>sendPrepay</code> 方法 返回的是一个Map 集合 在iOS里面就叫做 字典<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map paramsMap &#x3D; handler.sendPrepay();</span><br><span class="line">String prepay_id &#x3D; (String) paramsMap.get(&quot;prepay_id&quot;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="3">
+<li><p>处理接口返回信息进行二次签名</p>
+<ul>
+<li>这里需要注意的是 二次签名和一次签名，参数不一样 注意官网文档<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">OrderResult orderResult&#x3D;new OrderResult();</span><br><span class="line">&#x2F;&#x2F;清空集合  重新 赋值</span><br><span class="line">handler.clear();</span><br><span class="line">String noncestr &#x3D; (String) paramsMap.get(&quot;noncestr&quot;);</span><br><span class="line">String timestamp &#x3D; WXUtil.getTimeStamp();</span><br><span class="line">&#x2F;&#x2F; 密钥</span><br><span class="line">handler.setKey(PARTNER_KEY);</span><br><span class="line">&#x2F;&#x2F; 设置应用的ID</span><br><span class="line">handler.setParameter(&quot;appid&quot;, APP_ID);</span><br><span class="line">&#x2F;&#x2F; 预付单ID</span><br><span class="line">handler.setParameter(&quot;prepayid&quot;, prepay_id);</span><br><span class="line">&#x2F;&#x2F; 扩展字段</span><br><span class="line">handler.setParameter(&quot;package&quot;, &quot;Sign&#x3D;WXPay&quot;);</span><br><span class="line">&#x2F;&#x2F; 商户号</span><br><span class="line">handler.setParameter(&quot;partnerid&quot;, PARTNER_ID);</span><br><span class="line">&#x2F;&#x2F; 随机字符串</span><br><span class="line">handler.setParameter(&quot;noncestr&quot;, noncestr);</span><br><span class="line">&#x2F;&#x2F; 时间戳</span><br><span class="line">handler.setParameter(&quot;timestamp&quot;, timestamp);</span><br><span class="line">&#x2F;&#x2F; 进行二次签名(签名参数不一样)</span><br><span class="line">&#x2F;&#x2F; 第一次签名：对订单信息签名，获取prepay_id</span><br><span class="line">&#x2F;&#x2F; 第二次签名：对支付信息进行签名</span><br><span class="line">sign &#x3D; handler.createMD5Sign();</span><br><span class="line"></span><br><span class="line">OrderBean orderBean &#x3D; new OrderBean();</span><br><span class="line"></span><br><span class="line">orderBean.setAppid(APP_ID);</span><br><span class="line">orderBean.setNoncestr(noncestr);</span><br><span class="line">orderBean.setPackageValue(&quot;Sign&#x3D;WXPay&quot;);</span><br><span class="line">orderBean.setPartnerid(PARTNER_ID);</span><br><span class="line">orderBean.setPrepayid(prepay_id);</span><br><span class="line">orderBean.setTradeType((String) paramsMap.get(&quot;trade_type&quot;));</span><br><span class="line">orderBean.setSign(sign);</span><br><span class="line">orderBean.setTimestamp(timestamp);			</span><br><span class="line">orderResult.setOrderBean(orderBean);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>将model转json数据格式 返回客户单</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Gson gson&#x3D;new Gson();</span><br><span class="line">&#x2F;&#x2F;解析成json字符串</span><br><span class="line">String jsonstr&#x3D;gson.toJson(orderResult);</span><br><span class="line">resp.getWriter().print(jsonstr);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p><strong>以上java服务器端微信支付代码完成  客服端的代码我就不贴了</strong><br><a href="https://github.com/MExuanHe/WxPay-java">dome地址</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/MExuanHe/MExuanHe.github.io/2018/03/26/JAVA%EF%BC%88%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%EF%BC%89/" data-id="ckamqc2z800016z760vzval2o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/MExuanHe.github.io/2018/10/01/AVFoundation%E5%85%A5%E9%97%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          AVFoundation入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/MExuanHe.github.io/2018/01/26/%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96%20-%20OCLint/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">OCLint</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/12/26/%E4%BD%BF%E7%94%A8SceneKit%E6%A1%86%E6%9E%B6%E6%9D%A5%E5%8A%A0%E8%BD%BD3D%E5%BC%95%E6%93%8E/">使用SceneKit框架来加载3D引擎</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/07/24/iOS%E6%97%A0%E4%BE%B5%E5%85%A5%E7%9A%84%E5%9F%8B%E7%82%B9%E6%96%B9%E6%A1%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F/">iOS无侵入的埋点方案如何实现？</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/">iOS降低APP崩溃率</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/">组件之间的通讯（Target-Action）</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/">组件化实战篇（私有库）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/MExuanHe.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/MExuanHe.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/MExuanHe.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/MExuanHe.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

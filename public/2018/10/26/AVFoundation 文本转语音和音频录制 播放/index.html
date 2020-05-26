@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>AVFoundation 文本转语音和音频录制 播放 | 背水一战</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="现在你应该对AVFoundation有了比较深入的了解，并且对数字媒体的细节也有了一定认识，下面介绍一下 AVFoundation的文本转语音功能 AVSpeechSynthesizer开发者可以使用AVFoundation中的AVSpeechSynthesizer类向iOS应用程序中添加类似功能，这个类用来播放一个或多个语音内容，这些语音内容都是名为AVSpeechUtterance的类的实例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AVFoundation 文本转语音和音频录制 播放">
+<meta property="og:url" content="https://github.com/MExuanHe/MExuanHe.github.io/2018/10/26/AVFoundation%20%E6%96%87%E6%9C%AC%E8%BD%AC%E8%AF%AD%E9%9F%B3%E5%92%8C%E9%9F%B3%E9%A2%91%E5%BD%95%E5%88%B6%20%E6%92%AD%E6%94%BE/index.html">
+<meta property="og:site_name" content="背水一战">
+<meta property="og:description" content="现在你应该对AVFoundation有了比较深入的了解，并且对数字媒体的细节也有了一定认识，下面介绍一下 AVFoundation的文本转语音功能 AVSpeechSynthesizer开发者可以使用AVFoundation中的AVSpeechSynthesizer类向iOS应用程序中添加类似功能，这个类用来播放一个或多个语音内容，这些语音内容都是名为AVSpeechUtterance的类的实例。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-10-25T16:30:11.000Z">
+<meta property="article:modified_time" content="2020-05-26T02:04:43.054Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/MExuanHe.github.io/atom.xml" title="背水一战" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/MExuanHe.github.io/" id="logo">背水一战</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/MExuanHe.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/MExuanHe/MExuanHe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-AVFoundation 文本转语音和音频录制 播放" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/MExuanHe.github.io/2018/10/26/AVFoundation%20%E6%96%87%E6%9C%AC%E8%BD%AC%E8%AF%AD%E9%9F%B3%E5%92%8C%E9%9F%B3%E9%A2%91%E5%BD%95%E5%88%B6%20%E6%92%AD%E6%94%BE/" class="article-date">
+  <time datetime="2018-10-25T16:30:11.000Z" itemprop="datePublished">2018-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AVFoundation 文本转语音和音频录制 播放
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在你应该对<code>AVFoundation</code>有了比较深入的了解，并且对数字媒体的细节也有了一定认识，下面介绍一下 <code>AVFoundation</code>的文本转语音功能</p>
+<h1 id="AVSpeechSynthesizer"><a href="#AVSpeechSynthesizer" class="headerlink" title="AVSpeechSynthesizer"></a><strong>AVSpeechSynthesizer</strong></h1><p>开发者可以使用<code>AVFoundation</code>中的<code>AVSpeechSynthesizer</code>类向iOS应用程序中添加类似功能，这个类用来播放一个或多个语音内容，这些语音内容都是名为<code>AVSpeechUtterance</code>的类的实例。具体的实现代码如下所示：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> synthesizer = <span class="type">AVSpeechSynthesizer</span>()</span><br><span class="line">synthesizer.speak(<span class="type">AVSpeechUtterance</span>(string: <span class="string">"Hello AV Foundation. How are you?"</span>))</span><br></pre></td></tr></table></figure>
+<p>就两行代码解决了文本转语音功能。当然很多人会有自己的需求，那么还需要对具体对话中用到的声音和语音字符串定义属性。</p>
+<h6 id="AVSpeechUtterance"><a href="#AVSpeechUtterance" class="headerlink" title="AVSpeechUtterance"></a>AVSpeechUtterance</h6><p>如果我们想定义声音的语速和语种那么我们就需要用<code>AVSpeechUtterance</code>类来设置一下自定义的属性</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> synthesizer = <span class="type">AVSpeechSynthesizer</span>()</span><br><span class="line"><span class="comment">//如果播放语音内容 需要用到 AVSpeechUtterance 类</span></span><br><span class="line"><span class="keyword">let</span> utterance = <span class="type">AVSpeechUtterance</span>(string: <span class="string">"Hello AV Foundation. How are you?"</span>)</span><br><span class="line"><span class="comment">//定义播放的语音语种</span></span><br><span class="line">utterance.voice = <span class="type">AVSpeechSynthesisVoice</span>(language: <span class="string">"en-US"</span>)</span><br><span class="line"><span class="comment">//定义播放语音内容的速率</span></span><br><span class="line">utterance.rate = <span class="number">0.5</span></span><br><span class="line"><span class="comment">//可在播放特定语句时改变声音的音调 pitchMultiplier 的允许值一般介于0.5（低音调）和2.0（高音调）之间</span></span><br><span class="line">utterance.pitchMultiplier = <span class="number">1.0</span></span><br><span class="line"><span class="comment">//让语音合成器在播放下一语句之前有短暂时间暂停</span></span><br><span class="line">utterance.postUtteranceDelay = <span class="number">0.5</span></span><br><span class="line"><span class="comment">//播放</span></span><br><span class="line">synthesizer.speak(utterance)</span><br></pre></td></tr></table></figure>
+
+<p>强调一下<code>AVSpeechUtterance</code>中的<code>voice</code>属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Arabic (ar-SA)</span><br><span class="line">Chinese (zh-CN, zh-HK, zh-TW)</span><br><span class="line">Czech (cs-CZ)</span><br><span class="line">Danish (da-DK)</span><br><span class="line">Dutch (nl-BE, nl-NL)</span><br><span class="line">English (en-AU, en-GB, en-IE, en-US, en-ZA)</span><br><span class="line">Finnish (fi-FI)</span><br><span class="line">French (fr-CA, fr-FR)</span><br><span class="line">German (de-DE)</span><br><span class="line">Greek (el-GR)</span><br><span class="line">Hebrew (he-IL)</span><br><span class="line">Hindi (hi-IN)</span><br><span class="line">Hungarian (hu-HU)</span><br><span class="line">Indonesian (id-ID)</span><br><span class="line">Italian (it-IT)</span><br><span class="line">Japanese (ja-JP)</span><br><span class="line">Korean (ko-KR)</span><br><span class="line">Norwegian (no-NO)</span><br><span class="line">Polish (pl-PL)</span><br><span class="line">Portuguese (pt-BR, pt-PT)</span><br><span class="line">Romanian (ro-RO)</span><br><span class="line">Russian (ru-RU)</span><br><span class="line">Slovak (sk-SK)</span><br><span class="line">Spanish (es-ES, es-MX)</span><br><span class="line">Swedish (sv-SE)</span><br><span class="line">Thai (th-TH)</span><br><span class="line">Turkish (tr-TR)</span><br></pre></td></tr></table></figure>
+<p><code>AVSpeechSynthesizer</code> 常用的<code>delegate</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//开始朗读</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">speechSynthesizer</span><span class="params">(<span class="number">_</span> synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance)</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//结束朗读</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">speechSynthesizer</span><span class="params">(<span class="number">_</span> synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance)</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//暂停朗读</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">speechSynthesizer</span><span class="params">(<span class="number">_</span> synthesizer: AVSpeechSynthesizer, didPause utterance: AVSpeechUtterance)</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//继续朗读</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">speechSynthesizer</span><span class="params">(<span class="number">_</span> synthesizer: AVSpeechSynthesizer, didContinue utterance: AVSpeechUtterance)</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//将要播放的语音文字</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">speechSynthesizer</span><span class="params">(<span class="number">_</span> synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance)</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>常用的文本转语音功能介绍完了 接下来介绍下常用的音频录制和播放功能</p>
+<p><strong>所有iOS应用程序都具有音频会话，无论其是否使用。默认音频会话来自于以下一些预配置：</strong></p>
+<ul>
+<li>激活了音频播放，但是音频录音未激活</li>
+<li>当用户切换响铃/静音开光到“静音”模式时，应用程序播放的所有音频都会消失</li>
+<li>当设备显示解锁屏幕时，应用程序的音频处于静音状态</li>
+<li>当应用程序播放音频时，所有后台播放的音频都会处于静音状态</li>
+</ul>
+<p><code>AVFoundation</code>定义了7种分类来描述应用程序所使用的音频行为。</p>
+<table>
+<thead>
+<tr>
+<th align="left">分类</th>
+<th align="center">作用</th>
+<th align="center">是否允许混音</th>
+<th align="center">音频输入</th>
+<th align="center">音频输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Ambient</td>
+<td align="center">游戏 效率应用程序</td>
+<td align="center">是</td>
+<td align="center">否</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="left">Solo Ambient (默认)</td>
+<td align="center">游戏 效率应用程序</td>
+<td align="center">否</td>
+<td align="center">否</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="left">Playback</td>
+<td align="center">音频和视频播放器</td>
+<td align="center">可选</td>
+<td align="center">否</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="left">Record</td>
+<td align="center">录音机  音频捕捉</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="left">Play and Record</td>
+<td align="center">VoIP 语音聊天</td>
+<td align="center">可选</td>
+<td align="center">是</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="left">Audio Processing</td>
+<td align="center">离线会话和处理</td>
+<td align="center">否</td>
+<td align="center">否</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="left">Multi-Route</td>
+<td align="center">使用外部硬件的高级A/V应用程序</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="center">是</td>
+</tr>
+</tbody></table>
+<p>上述分类所提供的几种常见行为可以满足大部分应用程序的需要，不过如果开发者需要更复杂的功能，其中一些分类可以通过使用<code>options和modes</code>方法进一步自定义开发。</p>
+<p><strong>音频会话在应用程序的生命周期中是可以修改的，但通常我们只对其配置一次，就是在应用程序启动时。</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: <span class="keyword">Any</span>]?)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> session = <span class="type">AVAudioSession</span>.sharedInstance()</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="comment">/*AVAudioSession.Category:</span></span><br><span class="line"><span class="comment">         .ambient         混合播放，会把后台播放的音乐混合起来播放</span></span><br><span class="line"><span class="comment">         .soloAmbient     进入后台，先会把之前的后台音乐停止，在播放自己的</span></span><br><span class="line"><span class="comment">         .playback        进入后台的时候播放音乐 不会随着静音键和屏幕关闭而静音</span></span><br><span class="line"><span class="comment">         .record          用于需要录音的应用,除了来电铃声，闹钟或日历提醒之外的其它系统声音都不会被播放</span></span><br><span class="line"><span class="comment">         .playAndRecord   用于既需要播放声音又需要录音的应用 该Category提供录音和播放功能。如果你的应用需要用到iPhone上的听筒，该category是你唯一的选择，在该Category下声音的默认出口为听筒（在没有外接设备的情况下）</span></span><br><span class="line"><span class="comment">         .audioProcessing 主要用于音频格式处理，一般可以配合AudioUnit进行使用</span></span><br><span class="line"><span class="comment">         .multiRoute      这个类别可以支持多个设备输入输出。</span></span><br><span class="line"><span class="comment">         </span></span><br><span class="line"><span class="comment">         </span></span><br><span class="line"><span class="comment">         上面介绍的这个七大类别，可以认为是设定了七种主场景，而这七类肯定是不能满足开发者所有的需求的。CoreAudio提供的方法是，首先定下七种的一种基调，然后在进行微调。CoreAudio为每种Category都提供了些许选项来进行微调。在设置完类别后，可以通过 AVAudioSession.CategoryOptions属性 查看当前类别设置了哪些选项</span></span><br><span class="line"><span class="comment">         AVAudioSession.CategoryOptions:</span></span><br><span class="line"><span class="comment">         .mixWithOthers     是否可以和其他后台APP进行混音</span></span><br><span class="line"><span class="comment">         .duckOthers        是否压低其他APP声音</span></span><br><span class="line"><span class="comment">         .allowBluetooth    是否支持蓝牙耳机</span></span><br><span class="line"><span class="comment">         .defaultToSpeaker  是否默认用免提声音</span></span><br><span class="line"><span class="comment">         除此之外，在iOS9还提供了.interruptSpokenAudioAndMixWithOthers iOS10又新加了两个.allowBluetoothA2DP 和 .allowAirPlay用来支持蓝牙A2DP耳机和AirPlay</span></span><br><span class="line"><span class="comment">         </span></span><br><span class="line"><span class="comment">         </span></span><br><span class="line"><span class="comment">         通过上面的七大类别，我们基本覆盖了常用的主场景，在每个主场景中可以通过Option进行微调。为此CoreAudio提供了七大比较常见微调后的子场景。叫做各个类别的模式。</span></span><br><span class="line"><span class="comment">         AVAudioSession.Mode:</span></span><br><span class="line"><span class="comment">         .default        每种类别默认的就是这个模式，所有要想还原的话，就设置成这个模式。</span></span><br><span class="line"><span class="comment">         .voiceChat      主要用于VoIP场景，此时系统会选择最佳的输入设备，比如插上耳机就使用耳机上的麦克风进行采集。此时有个副作用，他会设置类别的选项为".allowBluetooth"从而支持蓝牙耳机。  适用于 .playAndRecord</span></span><br><span class="line"><span class="comment">         .gameChat       适用于游戏App的采集和播放，比如“GKVoiceChat”对象，一般不需要手动设置 适用于 .playAndRecord</span></span><br><span class="line"><span class="comment">         .videoRecording 录制视频时  适用于 .playAndRecord .record</span></span><br><span class="line"><span class="comment">         .measurement    最小系统    适用于 .playAndRecord .record .playback</span></span><br><span class="line"><span class="comment">         .moviePlayback  视频播放    适用于 .playback</span></span><br><span class="line"><span class="comment">         .videoChat      主要用于视频通话，比如QQ视频、FaceTime。时系统也会选择最佳的输入设备，比如插上耳机就使用耳机上的麦克风进行采集并且会设置类别的选项为".allowBluetooth" 和 ".defaultToSpeaker"。 适用于 .playAndRecord</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">try</span> session.setCategory(.playback, mode: .<span class="keyword">default</span>, options: .mixWithOthers)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> session.setActive(<span class="literal">true</span>, options: .notifyOthersOnDeactivation)</span><br><span class="line">    &#125; <span class="keyword">catch</span> <span class="keyword">let</span> error <span class="keyword">as</span> <span class="type">Error</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(error)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用AVAudionPlayer-播放音频"><a href="#使用AVAudionPlayer-播放音频" class="headerlink" title="使用AVAudionPlayer 播放音频"></a><strong>使用AVAudionPlayer 播放音频</strong></h1><p><code>AVAudioPlayer</code>构建于<code>Core Audio</code>中的<code>C-based Audio Qucue Serics</code>的最顶层。所以它可以提供所有你在 <code>Audio Oucue Services</code>中所能找到的核心功能， 比如播放、循环甚至音频计量。除非你需要从网络流中播放音频、需要访问原始音频样本或者需要非常低的时延，否则<code>AVAudioPlayer</code>都能胜任。</p>
+<h4 id="创建-AVAudionPlayer"><a href="#创建-AVAudionPlayer" class="headerlink" title="创建 AVAudionPlayer"></a>创建 AVAudionPlayer</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> fileurl = <span class="type">Bundle</span>.main.url(forResource: <span class="string">"rock"</span>, withExtension: <span class="string">"mp3"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> player = <span class="keyword">try</span> <span class="type">AVAudioPlayer</span>.<span class="keyword">init</span>(contentsOf: fileurl!)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> player != <span class="literal">nil</span> &#123;</span><br><span class="line">    player.prepareToPlay()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果返回一个有效的播放实例，建议开发者调用  <code>prepareToPlay</code> 方法。这样做会取得需要的音频硬件并预加载<code>Audio Queue</code> 的缓冲区。调用 <code>prepareToPlay</code>这个动作是可选的，当调用<code>Play</code>方法时会隐形激活，不过在创建时准备播放器可以降低调用<code>Play</code>方法和听到声音之间的延时</p>
+<p><code>AVAudioPlayer</code>常用属性</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置声音的大小 范围为（0到1）</span></span><br><span class="line">player?.volume = <span class="number">0.5</span></span><br><span class="line"><span class="comment">//设置循环次数，如果为负数，就是无限循环</span></span><br><span class="line">player?.numberOfLoops = -<span class="number">1</span></span><br><span class="line"><span class="comment">//设置播放进度</span></span><br><span class="line">player?.currentTime = <span class="number">0</span></span><br><span class="line"><span class="comment">//调整播放率 范围 0.5 - 2.0</span></span><br><span class="line">player?.rate = <span class="number">0.5</span></span><br><span class="line"><span class="comment">//允许使用立体声播放声音 范围从 -1.0（极左）到 1.0（极右） 默认值为0.0（居中）</span></span><br><span class="line">player?.pan = <span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
+<p><code>pause</code>和<code>stop</code>方法的区别：<br><code>pause</code>和<code>stop</code>方法在应用程序外面看来实现的功能都是停止当前播放行为，这两者最主要的区别在底层处理上。掉用<code>stop</code>方法会撤销掉用<code>prepareToPlay</code>时所做的设置，而调用<code>pause</code>方法则不会。</p>
+<h1 id="使用AVAudionRecorder-播放音频"><a href="#使用AVAudionRecorder-播放音频" class="headerlink" title="使用AVAudionRecorder 播放音频"></a><strong>使用AVAudionRecorder 播放音频</strong></h1><p><code>AVAudionRecorder</code>同其于播放音频的兄弟类一样，构建于<code>Audio Qucue Serics</code>之上，是一个功能强大且代码简单易用的类。我们可以在<code>Mac</code>机器和<code>iOS</code>设备上使用这个类来从内置的麦克风录制视频，也可从外部音频设备进行录制，比如数字音频接口或USB麦克风</p>
+<h4 id="创建-AVAudionRecorder"><a href="#创建-AVAudionRecorder" class="headerlink" title="创建 AVAudionRecorder"></a>创建 AVAudionRecorder</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line">        <span class="keyword">let</span> tmpDir = <span class="type">NSTemporaryDirectory</span>()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> fileURL = <span class="type">URL</span>.<span class="keyword">init</span>(string: tmpDir)!.appendingPathComponent(<span class="string">"memo.caf"</span>)</span><br><span class="line">        </span><br><span class="line">                      <span class="comment">/*AVEncoderAudioQualityKey：声音质量 需要的参数是一个枚举 ：</span></span><br><span class="line"><span class="comment">                        AVAudioQualityMin    最小的质量</span></span><br><span class="line"><span class="comment">                        AVAudioQualityLow    比较低的质量</span></span><br><span class="line"><span class="comment">                        AVAudioQualityMedium 中间的质量</span></span><br><span class="line"><span class="comment">                        AVAudioQualityHigh   高的质量</span></span><br><span class="line"><span class="comment">                        AVAudioQualityMax    最好的质量</span></span><br><span class="line"><span class="comment">                        AVLinearPCMBitDepthKey：比特率  8 16 32</span></span><br><span class="line"><span class="comment">                    */</span> </span><br><span class="line">        <span class="keyword">let</span> settings = [<span class="type">AVFormatIDKey</span> : [kAudioFormatAppleIMA4],</span><br><span class="line">                        <span class="type">AVSampleRateKey</span> : <span class="string">"44100.0"</span>,</span><br><span class="line">                        <span class="type">AVNumberOfChannelsKey</span> : <span class="string">"1"</span>,</span><br><span class="line">                        <span class="type">AVEncoderBitDepthHintKey</span> : <span class="string">"16"</span>,</span><br><span class="line">                        <span class="type">AVEncoderAudioQualityKey</span> : [kRenderQuality_Medium]</span><br><span class="line">                        ] <span class="keyword">as</span> [<span class="type">String</span> : <span class="type">Any</span>]</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">try</span> recorder = <span class="type">AVAudioRecorder</span>.<span class="keyword">init</span>(url: fileURL, settings: settings)</span><br><span class="line">            </span><br><span class="line">            recorder?.delegate = <span class="keyword">self</span></span><br><span class="line">            recorder?.isMeteringEnabled = <span class="literal">true</span></span><br><span class="line">            recorder?.prepareToRecord()</span><br><span class="line">        &#125; <span class="keyword">catch</span> <span class="number">_</span> &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">``` </span><br><span class="line">成功创建`<span class="type">AVAudioRecorder</span>` 实例，建议调用期` prepareToRecord` 方法，与`<span class="type">AVPlayer</span>`的`prepareToPlay`方法类似。这个方法执行底层<span class="type">Audio</span> <span class="type">Queue</span>初始化的必要过程。该方法还在<span class="type">URL</span>参数指定的位置一个文件，将录制启动时的延迟降到最小。</span><br><span class="line"></span><br><span class="line">**在设置字典中指定的键值信息也值得讨论一番，开发者可以使用的完整可用键信息在`&lt;<span class="type">ACFoundation</span>/<span class="type">AVAudioSettings</span>.h&gt;`中定义。大部分的键都专门定义了特有的各式，不过下面介绍的都是一些通用的音频格式**</span><br><span class="line"></span><br><span class="line">**<span class="number">1</span>.音频格式**</span><br><span class="line">`<span class="type">AVFormatIDKey</span>` 键定义了写入内容的音频格式，下面的常量都是音频格式所支持的值：</span><br><span class="line"></span><br><span class="line">    kAudioFormatLinearPCM               = 'lpcm',</span><br><span class="line">    kAudioFormatAC3                     = 'ac-<span class="number">3</span>',</span><br><span class="line">    kAudioFormat60958AC3                = 'cac3',</span><br><span class="line">    kAudioFormatAppleIMA4               = 'ima4',</span><br><span class="line">    kAudioFormatMPEG4AAC                = 'aac ',</span><br><span class="line">    kAudioFormatMPEG4CELP               = 'celp',</span><br><span class="line">    kAudioFormatMPEG4HVXC               = 'hvxc',</span><br><span class="line">    kAudioFormatMPEG4TwinVQ             = 'twvq',</span><br><span class="line">    kAudioFormatMACE3                   = '<span class="type">MAC3'</span>,</span><br><span class="line">    kAudioFormatMACE6                   = '<span class="type">MAC6'</span>,</span><br><span class="line">    kAudioFormatULaw                    = 'ulaw',</span><br><span class="line">    kAudioFormatALaw                    = 'alaw',</span><br><span class="line">    kAudioFormatQDesign                 = '<span class="type">QDMC'</span>,</span><br><span class="line">    kAudioFormatQDesign2                = '<span class="type">QDM2'</span>,</span><br><span class="line">    kAudioFormatQUALCOMM                = '<span class="type">Qclp'</span>,</span><br><span class="line">    kAudioFormatMPEGLayer1              = '.mp1',</span><br><span class="line">    kAudioFormatMPEGLayer2              = '.mp2',</span><br><span class="line">    kAudioFormatMPEGLayer3              = '.mp3',</span><br><span class="line">    kAudioFormatTimeCode                = 'time',</span><br><span class="line">    kAudioFormatMIDIStream              = 'midi',</span><br><span class="line">    kAudioFormatParameterValueStream    = 'apvs',</span><br><span class="line">    kAudioFormatAppleLossless           = 'alac',</span><br><span class="line">    kAudioFormatMPEG4AAC_HE             = 'aach',</span><br><span class="line">    kAudioFormatMPEG4AAC_LD             = 'aacl',</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD            = 'aace',</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD_SBR        = 'aacf',</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD_V2         = 'aacg',    </span><br><span class="line">    kAudioFormatMPEG4AAC_HE_V2          = 'aacp',</span><br><span class="line">    kAudioFormatMPEG4AAC_Spatial        = 'aacs',</span><br><span class="line">    kAudioFormatAMR                     = 'samr',</span><br><span class="line">    kAudioFormatAMR_WB                  = 'sawb',</span><br><span class="line">    kAudioFormatAudible                 = '<span class="type">AUDB'</span>,</span><br><span class="line">    kAudioFormatiLBC                    = 'ilbc',</span><br><span class="line">    kAudioFormatDVIIntelIMA             = <span class="number">0x6D730011</span>,</span><br><span class="line">    kAudioFormatMicrosoftGSM            = <span class="number">0x6D730031</span>,</span><br><span class="line">    kAudioFormatAES3                    = 'aes3',</span><br><span class="line">    kAudioFormatEnhancedAC3             = 'ec-<span class="number">3</span>',</span><br><span class="line">    kAudioFormatFLAC                    = 'flac',</span><br><span class="line">    kAudioFormatOpus                    = 'opus'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">指定`kAudioFormatLinearPCM`会将未压缩的音频流写入到文件中。这种格式的保真度最高，不过相应的文件也最大。选择诸如`<span class="type">AAC</span>`或`<span class="type">Apple</span> <span class="type">IMA4</span>`的压缩格式会显著缩小文件，还能保证高质量的音频内容</span><br><span class="line"></span><br><span class="line">**<span class="number">2</span>.采样率**</span><br><span class="line">`<span class="type">AVSampleRateKey</span>`用于定义录音器的采样率，采样率定义了对输入的模拟音频信号每一秒内的采样数。在录制音频的质量及最终文件大小方面，采样率扮演着至关重要的角色。使用低采样率，比如`8kHz`， 会导致粗粒度、 <span class="type">AM</span>广播类型的录制效果，不过文件会比较小，使用`<span class="number">44</span>.1kHz`的采样率(<span class="type">CD</span>质量的采样率)会得到非常高质量的内容，不过文件就比较大。对于使用什么采样率最好 没有一个明确的定义，不过开发者应该尽量使用标准的采样率，比如`<span class="number">8000</span>`、`<span class="number">16000</span>`、`<span class="number">22</span> <span class="number">050</span>`或`<span class="number">44</span> <span class="number">100</span>`。最终是我们的耳朵在进行判断。</span><br><span class="line"></span><br><span class="line">**<span class="number">3</span>.通道数**</span><br><span class="line">`<span class="type">AVNumberOfChannelsKey</span>`用于定义记录音频内容的通道数。指定默认值<span class="number">1</span>意味着使用单声道录制，设置为<span class="number">2</span>意味着使用立体声录制。除非使用外部硬件进行录制，否则通常应该创建单声道录音。</span><br><span class="line"></span><br><span class="line">**<span class="number">4</span>.指定格式的键**</span><br><span class="line">处理`<span class="type">Linear</span> <span class="type">PCM</span>`或压缩音频格式时，可以定义一些其他指定格式的键。 可在<span class="type">Xcode</span>帮助文档中的`<span class="type">AV</span> <span class="type">Foundation</span> <span class="type">Audio</span> <span class="type">Sttings</span> <span class="type">Constants</span>`引用中找到完整的列表。</span><br><span class="line"></span><br><span class="line">**`<span class="type">AVAudionRecorder</span>`常用的<span class="type">API</span>**</span><br><span class="line"></span><br><span class="line">``` <span class="type">Swift</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">prepareToRecord</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span>    准备录音， 这个在录音之前要调用一下， 底层可能会给你做一些事</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">record</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span>    录音</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">6.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">record</span><span class="params">(atTime time: TimeInterval)</span></span> -&gt; <span class="type">Bool</span>    在未来的某个时刻开始录音</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">record</span><span class="params">(forDuration duration: TimeInterval)</span></span> -&gt; <span class="type">Bool</span>  录音， 控制时长</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">6.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">record</span><span class="params">(atTime time: TimeInterval, forDuration duration: TimeInterval)</span></span> -&gt; <span class="type">Bool</span>  在未来的某段时间录多少时间的音频</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">pause</span><span class="params">()</span></span>  暂停</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">stop</span><span class="params">()</span></span>  停止</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">deleteRecording</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span>  删除录音</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">updateMeters</span><span class="params">()</span></span>   更新音量等数据</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">peakPower</span><span class="params">(forChannel channelNumber: Int)</span></span> -&gt; <span class="type">Float</span>  最高音量</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">averagePower</span><span class="params">(forChannel channelNumber: Int)</span></span> -&gt; <span class="type">Float</span>  平均音量</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> isRecording: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;   是否正在录音</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> url: <span class="type">URL</span> &#123; <span class="keyword">get</span> &#125;  录音存放的url</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> settings: [<span class="type">String</span> : <span class="type">Any</span>] &#123; <span class="keyword">get</span> &#125; 录音格式配置字典</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">10.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> format: <span class="type">AVAudioFormat</span> &#123; <span class="keyword">get</span> &#125;  录音格式配置</span><br><span class="line"></span><br><span class="line"><span class="keyword">unowned</span>(unsafe) <span class="keyword">open</span> <span class="keyword">var</span> delegate: <span class="type">AVAudioRecorderDelegate?</span> 代理</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> currentTime: <span class="type">TimeInterval</span> &#123; <span class="keyword">get</span> &#125;  当前录音的时长</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">6.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> deviceCurrentTime: <span class="type">TimeInterval</span> &#123; <span class="keyword">get</span> &#125;  设备当前时间</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">7.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> channelAssignments: [<span class="type">AVAudioSessionChannelDescription</span>]? 每个声音通道描述数组</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">**`<span class="type">AVAudioRecorderDelegate</span>`**</span><br><span class="line"></span><br><span class="line">``` <span class="type">Swift</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">3.0</span>, *)</span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">audioRecorderDidFinishRecording</span><span class="params">(<span class="number">_</span> recorder: AVAudioRecorder, successfully flag: Bool)</span></span>  录音成功的回调</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">3.0</span>, *)</span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">audioRecorderEncodeErrorDidOccur</span><span class="params">(<span class="number">_</span> recorder: AVAudioRecorder, error: Error?)</span></span> 录音发生错误的的回调</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS, introduced: <span class="number">2.2</span>, deprecated: <span class="number">8.0</span>)</span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">audioRecorderBeginInterruption</span><span class="params">(<span class="number">_</span> recorder: AVAudioRecorder)</span></span>    录音开始中断的回调</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS, introduced: <span class="number">6.0</span>, deprecated: <span class="number">8.0</span>)</span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">audioRecorderEndInterruption</span><span class="params">(<span class="number">_</span> recorder: AVAudioRecorder, withOptions flags: Int)</span></span> 录音结束中断的回调</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用Audio-Metering"><a href="#使用Audio-Metering" class="headerlink" title="使用Audio Metering"></a>使用Audio Metering</h1><p><strong><code>AVAudioRecorder</code>和<code>AVAudioPlayer</code>中最强大和最实用的功能就是对音频进行测量。<code>Audio Metering</code>可让开发者读取音频的平均分贝和峰值分贝数据，并使用这些数据以可视化方式将声音的大小呈现给最终用户。</strong></p>
+<p>这两个类使用的方法都是<strong><code>averagePowerForChannel</code></strong>和<strong><code>peakPowerForChannel</code></strong>。两个方法都会返回一个用于表示声音分贝（dB）等级的浮点值。这个值的范围从表示最大分贝的0Db(fullscale)到表示最小分贝或静音的-160dB。</p>
+<p>在可以读取这些值之前，首先要通过设置录音器的<strong><code>isMeteringEnabled = true</code></strong>才可以支持对音频进行测量。这就使得录音器可以对捕捉到的音频样本进行分贝计算。每当需要读取值时，首页需要调用<strong><code>updateMeters()</code></strong>方法才能获取最新的值。</p>
+<p>创建一个新的CADisplayLink 定时器 来实时刷新 获取分贝 定时器方法内部实现：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">recorder?.updateMeters()</span><br><span class="line"><span class="keyword">var</span> level = <span class="number">0.0</span></span><br><span class="line"> </span><br><span class="line"> <span class="comment">//获取分贝</span></span><br><span class="line"> <span class="keyword">let</span> peakPower = recorder?.peakPower(forChannel: <span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line"> <span class="comment">//设置一个最低分贝</span></span><br><span class="line"> <span class="keyword">let</span> minDecibels:<span class="type">Float</span> = -<span class="number">60</span></span><br><span class="line"> </span><br><span class="line"> <span class="keyword">if</span> peakPower &lt; minDecibels &#123;</span><br><span class="line">     level = <span class="number">0.0</span></span><br><span class="line"> &#125;<span class="keyword">else</span> <span class="keyword">if</span> peakPower &gt;= <span class="number">0.0</span> &#123;</span><br><span class="line">     level = <span class="number">1.0</span></span><br><span class="line"> &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">     <span class="keyword">let</span> root            = <span class="number">2.0</span>;</span><br><span class="line">     <span class="comment">//最小分贝的波形幅度值 公式: db 分贝 A 波形幅度值   dB=20∗log(A)→A=pow(10,(db/20.0))</span></span><br><span class="line">     <span class="keyword">let</span> minAmp          = powf(<span class="number">10.0</span>, <span class="number">0.05</span> * minDecibels);</span><br><span class="line">     <span class="keyword">let</span> inverseAmpRange = <span class="number">1.0</span> / (<span class="number">1.0</span> - minAmp);</span><br><span class="line">     <span class="comment">//实时获取到波形幅度值 公式同上</span></span><br><span class="line">     <span class="keyword">let</span> amp             = powf(<span class="number">10.0</span>, <span class="number">0.05</span> * peakPower);</span><br><span class="line">     <span class="comment">//(实时数据 - 最小数据)/(最大数据 - 最小数据)  应该计算的一个比例值吧</span></span><br><span class="line">     <span class="keyword">let</span> adjAmp          = (amp - minAmp) * inverseAmpRange;</span><br><span class="line">     level = powf(adjAmp, <span class="number">1.0</span> / root);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>本章我们见识了<code>AVFoundation</code>的音频类所能提供的强大功能。<code>AVAudionSession</code>作为应用程序和更在的iOS音频环境的中间环节，可通过使用分类在语义上定义应用程序的行为，并且提供工具来观察中断和线路变化。<code>AVAudionPlayer</code>和<code>AVAudioRecorder</code>提供了一种简单但功能强大的接口，用于处理音频的播放和录制。这两个类都构建与<code>Core Audio</code>框架之上，但为在应用程序中实现音频录制和播放提供了一种更便捷的方法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/MExuanHe/MExuanHe.github.io/2018/10/26/AVFoundation%20%E6%96%87%E6%9C%AC%E8%BD%AC%E8%AF%AD%E9%9F%B3%E5%92%8C%E9%9F%B3%E9%A2%91%E5%BD%95%E5%88%B6%20%E6%92%AD%E6%94%BE/" data-id="ckamqc2z200006z762c9beufq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          组件化实战篇（私有库）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/MExuanHe.github.io/2018/10/01/AVFoundation%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">AVFoundation入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/12/26/%E4%BD%BF%E7%94%A8SceneKit%E6%A1%86%E6%9E%B6%E6%9D%A5%E5%8A%A0%E8%BD%BD3D%E5%BC%95%E6%93%8E/">使用SceneKit框架来加载3D引擎</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/07/24/iOS%E6%97%A0%E4%BE%B5%E5%85%A5%E7%9A%84%E5%9F%8B%E7%82%B9%E6%96%B9%E6%A1%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F/">iOS无侵入的埋点方案如何实现？</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/">iOS降低APP崩溃率</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/">组件之间的通讯（Target-Action）</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/">组件化实战篇（私有库）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/MExuanHe.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/MExuanHe.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/MExuanHe.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/MExuanHe.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

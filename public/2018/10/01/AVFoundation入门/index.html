@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>AVFoundation入门 | 背水一战</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前沿随着移动技术的成熟和即将到来的5G时代 ，越来越多的公司开发移动视频软件来占领市场，随着抖音的登场 视频APP现已是火海一片，BAT纷纷入场。为了能在红海中分一杯羹 我司决定开发一款赛马的视频观看项目，在项目的开发中  对苹果的AVFoundation框架进行了了解和学习 在学习过程中越来越佩服AVFoundation框架的厉害之处。我会分几篇文章来分析AVFoundation中常用的API和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AVFoundation入门">
+<meta property="og:url" content="https://github.com/MExuanHe/MExuanHe.github.io/2018/10/01/AVFoundation%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="背水一战">
+<meta property="og:description" content="前沿随着移动技术的成熟和即将到来的5G时代 ，越来越多的公司开发移动视频软件来占领市场，随着抖音的登场 视频APP现已是火海一片，BAT纷纷入场。为了能在红海中分一杯羹 我司决定开发一款赛马的视频观看项目，在项目的开发中  对苹果的AVFoundation框架进行了了解和学习 在学习过程中越来越佩服AVFoundation框架的厉害之处。我会分几篇文章来分析AVFoundation中常用的API和">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-09-30T16:31:50.000Z">
+<meta property="article:modified_time" content="2020-05-26T02:05:05.254Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/MExuanHe.github.io/atom.xml" title="背水一战" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/MExuanHe.github.io/" id="logo">背水一战</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/MExuanHe.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/MExuanHe/MExuanHe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-AVFoundation入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/MExuanHe.github.io/2018/10/01/AVFoundation%E5%85%A5%E9%97%A8/" class="article-date">
+  <time datetime="2018-09-30T16:31:50.000Z" itemprop="datePublished">2018-10-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AVFoundation入门
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前沿"><a href="#前沿" class="headerlink" title="前沿"></a><strong>前沿</strong></h1><p>随着移动技术的成熟和即将到来的5G时代 ，越来越多的公司开发移动视频软件来占领市场，随着抖音的登场 视频APP现已是火海一片，BAT纷纷入场。<br>为了能在红海中分一杯羹 我司决定开发一款赛马的视频观看项目，在项目的开发中  对苹果的AVFoundation框架进行了了解和学习 在学习过程中越来越佩服<code>AVFoundation</code>框架的厉害之处。我会分几篇文章来分析<code>AVFoundation</code>中常用的API和类</p>
+<h1 id="AVFoundation入门"><a href="#AVFoundation入门" class="headerlink" title="AVFoundation入门"></a><strong>AVFoundation入门</strong></h1><p>在学习<code>AVFoundation</code>之初，最大的挑战就是理解该框架所提供的大量类及其功能。该框架包含的类超过100个、大量协议的集合及许多不同的功能和常量。在第一次遇到这些问题时看似掌握这个框架有一定的难度， 但是如果你将这个框架仔细地按功能单元进行分解，就会变得比较容易理解。下面就看一下 AVFoundation所提供的一些核心功能。</p>
+<ul>
+<li><h5 id="音频播放和记录"><a href="#音频播放和记录" class="headerlink" title="音频播放和记录"></a>音频播放和记录</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ##### 媒体文件检查</span><br><span class="line">&#96;&#96;&#96;AVFoundation&#96;&#96;&#96;提供检查正在使用的媒体文件的功能。可以查看这些媒体资源来确定是否适合一些特定的任务，比如是否可以用于回放或其是否可以被编辑和导出。还可以获取该媒体资源相关的技术参数，比如内容持续时间  创建日期或首选播放音量等。此外，该框架还基于&#96;&#96;&#96;AVMetadataItem&#96;&#96;&#96;类提供功能强大的元数据支持。这就允许开发者读写关于媒体资源的描述信息。</span><br><span class="line"></span><br><span class="line">- ##### 视频播放</span><br><span class="line">&#96;&#96;&#96;AVFoundation&#96;&#96;&#96;框架可以让你播放从本地文件或远程流中获取的视频资源，并对视频播放和内容的展示进行控制。这一部分的核心类是&#96;&#96;&#96;AVPlayer&#96;&#96;&#96;和&#96;&#96;&#96;AVPlayerItem&#96;&#96;&#96;，正是这两个类让你能够对资源的播放进行控制，此外它还可以整合其他更高级的功能，如控制子标题和章节信息等。或者让你链接访问音频和视频这两个不同的资源。</span><br><span class="line"></span><br><span class="line">- ##### 媒体捕捉</span><br><span class="line">&#96;&#96;&#96;AVFoundation&#96;&#96;&#96;提供了一个丰富的API集来让你可以对这些设备进行精密控制。摄像头捕捉的核心类是&#96;&#96;&#96;AVCaptureSession&#96;&#96;&#96;，其作为所有活动的汇集点来接收摄像头设备由各路流发过来的电影和图片。这也是&#96;&#96;&#96;AVFoundation&#96;&#96;&#96;框架的一个可靠功能。</span><br><span class="line"></span><br><span class="line">- ##### 媒体编辑</span><br><span class="line">&#96;&#96;&#96;AVFoundation&#96;&#96;&#96;框架语允许创建可以将多个音频和视频资源进行组合的应用程序，允许修改和编辑独立的媒体片段，随时修改音频文件的参数以及添加动画标题和场景切换效果。</span><br><span class="line">&#96;&#96;&#96;AVFoundation&#96;&#96;&#96;有关资源组合的功能源于&#96;&#96;&#96;AVAsset&#96;&#96;&#96;的子类&#96;&#96;&#96;AVComposition&#96;&#96;&#96;。&#96;&#96;&#96;AVComposition&#96;&#96;&#96;中的轨道都是&#96;&#96;&#96;AVAssetTrack&#96;&#96;&#96;的子类&#96;&#96;&#96;AVCompositionTrack&#96;&#96;&#96;。一个组合轨迹本身由一个或多个媒体片断组成，由&#96;&#96;&#96;AVCompositionTrackSegment&#96;&#96;&#96;类定义，代表这个组合中的实际媒体区域，描述如下图所示：</span><br><span class="line">![20170914231445643.png](https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;4&#x2F;19&#x2F;16a34cca12ca8ccf?w&#x3D;1240&amp;h&#x3D;352&amp;f&#x3D;png&amp;s&#x3D;89258)</span><br><span class="line">&#96;&#96;&#96;AVComposition&#96;&#96;&#96;和&#96;&#96;&#96;AVCompositionTrack&#96;&#96;&#96;都是不可变对象，提供对资源的只读操作。这些对象提供了一个合适的接口让应用程序的一部分可以进行播放或处理。但当需要创建自己的组合时，就需要使用&#96;&#96;&#96;AVMutableComposition&#96;&#96;&#96;和&#96;&#96;&#96;AVMutableCompositionTrack&#96;&#96;&#96;所提供的可变子类。要创建自定义组合，需指定在将要添加到组合的源媒体的时间范围，还要指定要添加片段的每个轨道的位置。</span><br><span class="line"></span><br><span class="line">- ##### 媒体处理</span><br><span class="line">虽然通过&#96;&#96;&#96;AVFoundation&#96;&#96;&#96;框架可以在不通过对媒体资源字节一级进行操作的前提下实现大量功能，但有时你可能还是需要访问更低层的数据并对其进行操作。幸运的是，当需要执行更高级的媒体处理任务时，可以使用&#96;&#96;&#96;AVAssetReader&#96;&#96;&#96; 和&#96;&#96;&#96;AVAssetWriter&#96;&#96;&#96;类来实现这些功能。这些类提供直接访问视频帧和音频样本的功能，所以可以对媒体资源进行任何更高级的处理。</span><br><span class="line"></span><br><span class="line"># **视频的基本知识点**</span><br><span class="line"></span><br><span class="line">* 流媒体开发： 网络层(socket或st)负责传输，协议层(rtmp或hls)负责网络打包，封装层(flv、ts)负责编解码数据的封装，编码层(h.264和aac)负责图像，音频压缩。</span><br><span class="line">* 帧：每帧代表一幅静止的图像</span><br><span class="line">* GOP: （&#96;&#96;&#96;Group of Pictures&#96;&#96;&#96;）画面组，一个GOP就是一组连续的画面，每个画面都是一帧，一个GOP就是很多帧的集合.     (直播的数据，其实是一组图片，包括I帧、P帧、B帧，当用户第一次观看的时候，会寻找I帧，而播放器会到服务器寻找到最近的I帧反馈给用户。因此，GOP Cache增加了端到端延迟，因为它必须要拿到最近的I帧). GOP Cache的长度越长，画面质量越好    </span><br><span class="line">* 码率： 图片进行压缩后每秒显示的数据量。</span><br><span class="line">* 帧率： 每秒显示的图片数。影响画面流畅度，与画面流畅度成正比：帧率越大，画面越流畅；帧率越小，画面越有跳动感。（由于人类眼睛的特殊生理结构，如果所看画面之帧率高于16的时候，就会认为是连贯的，此现象称之为视觉暂留。并且当帧速达到一定数值后，再增长的话，人眼也不容易察觉到有明显的流畅度提升了。）</span><br><span class="line">* 分辨率：（矩形)图片的长度和宽度，即图片的尺寸</span><br><span class="line">* 压缩前的每秒数据量：帧率X分辨率(单位应该是若干个字节)</span><br><span class="line">* 压缩比：压缩前的每秒数据量&#x2F;码率 （对于同一个视频源并采用同一种视频编码算法，则：压缩比越高，画面质量越差。）</span><br><span class="line">* 视频文件格式：文件的后缀，比如&#96;&#96;&#96;.wmv&#96;&#96;&#96;,&#96;&#96;&#96;.mov&#96;&#96;&#96;,&#96;&#96;&#96;.mp4&#96;&#96;&#96;,&#96;&#96;&#96;.mp3&#96;&#96;&#96;,.&#96;&#96;&#96;avi</span><br></pre></td></tr></table></figure>
+,（主要用处：根据文件格式，系统会自动判断用什么软件打开,<br>注意: 随意修改文件格式，对文件的本身不会造成太大的影响，比如把<code>avi</code>改成<code>mp4</code>,文件还是<code>avi.</code>）</li>
+</ul>
+<ul>
+<li><p>视频封装格式：一种储存视频信息的容器，流式封装可以有<code>TS</code>、<code>FLV</code>等，索引式的封装有<code>MP4</code>,<code>MOV</code>,<code>AVI</code>等，（主要作用：一个视频文件往往会包含图像和音频，还有一些配置信息(如图像和音频的关联，如何解码它们等)：这些内容需要按照一定的规则组织、封装起来.               </p>
+<pre><code>注意：会发现封装格式跟文件格式一样，因为一般视频文件格式的后缀名即采用相应的视频封装格式的名称,所以视频文件格式就是视频封装格式。）</code></pre></li>
+<li><p>视频封装格式和视频压缩编码标准：就好像项目工程和编程语言，封装格式就是一个项目的工程，视频编码方式就是编程语言，一个项目工程可以用不同语言开发。</p>
+</li>
+</ul>
+<p><strong><strong><em>视频编码框架</em></strong></strong></p>
+<ul>
+<li><code>FFmpeg</code>:是一个跨平台的开源视频框架,能实现如视频编码,解码,转码,串流,播放等丰富的功能。其支持的视频格式以及播放协议非常丰富,几乎包含了所有音视频编解码、封装格式以及播放协议。<ul>
+<li>-Libswresample:可以对音频进行重采样,rematrixing 以及转换采样格式等操 作。</li>
+<li>-Libavcodec:提供了一个通用的编解码框架,包含了许多视频,音频,字幕流 等编码/解码器。</li>
+<li>-Libavformat:用于对视频进行封装/解封装。</li>
+<li>-Libavutil:包含一些共用的函数,如随机数生成,数据结构,数学运算等。</li>
+<li>-Libpostproc:用于进行视频的一些后期处理。</li>
+<li>-Libswscale:用于视频图像缩放,颜色空间转换等。</li>
+<li>-Libavfilter:提供滤镜功能。</li>
+</ul>
+</li>
+<li><code>X264</code>:把视频原数据YUV编码压缩成H.264格式</li>
+<li><code>VideoToolbox</code>:苹果自带的视频硬解码和硬编码API，但是在iOS8之后才开放。</li>
+<li><code>AudioToolbox</code>:苹果自带的音频硬解码和硬编码API</li>
+</ul>
+<p><strong><strong><em>视频编码技术</em></strong></strong></p>
+<ul>
+<li><p>视频压缩编码标准：对视频进行压缩(视频编码)或者解压缩（视频解码）的编码技术,比如<code>MPEG</code>，<code>H.264</code>,这些视频编码技术是压缩编码视频的</p>
+<ul>
+<li>主要作用:是将视频像素数据压缩成为视频码流，从而降低视频的数据量。如果视频不经过压缩编码的话，体积通常是非常大的，一部电影可能就要上百G的空间。</li>
+<li>注意:最影响视频质量的是其视频编码数据和音频编码数据，跟封装格式没有多大关系</li>
+</ul>
+</li>
+<li><p><code>MPEG</code>:一种视频压缩方式，它采用了帧间压缩，仅存储连续帧之间有差别的地方 ，从而达到较大的压缩比</p>
+</li>
+<li><p><code>H.264/AVC</code>:一种视频压缩方式,采用事先预测和与<code>MPEG</code>中的P-B帧一样的帧预测方法压缩，它可以根据需要产生适合网络情况传输的视频流,还有更高的压缩比，有更好的图象质量</p>
+<ul>
+<li>注意1:如果是从单个画面清晰度比较，<code>MPEG4</code>有优势；从动作连贯性上的清晰度，<code>H.264</code>有优势</li>
+<li>注意2:由于264的算法更加复杂，程序实现烦琐，运行它需要更多的处理器和内存资源。因此，运行<code>264</code>对系统要求是比较高的。</li>
+<li>注意3:由于264的实现更加灵活，它把一些实现留给了厂商自己去实现，虽然这样给实现带来了很多好处，但是不同产品之间互通成了很大的问题，造成了通过A公司的编码器编出的数据，必须通过A公司的解码器去解这样尴尬的事情</li>
+</ul>
+</li>
+<li><p><code>H.265/HEVC</code>:一种视频压缩方式,基于<code>H.264</code>，保留原来的某些技术，同时对一些相关的技术加以改进，以改善码流、编码质量、延时和算法复杂度之间的关系，达到最优化设置。</p>
+<ul>
+<li><code>H.265</code> 是一种更为高效的编码标准，能够在同等画质效果下将内容的体积压缩得更小，传输时更快更省带宽</li>
+</ul>
+</li>
+<li><p><code>I-frames帧</code>:(关键帧)保留一副完整的画面，解码时只需要本帧数据就可以完成（这些帧都是一些单独的帧或关键帧，包含创建完整图片 需要的所有数据。每个GOP都正好有一个I-frames。由于它是独立帧，其尺寸最大，但也是解压最快的）</p>
+</li>
+<li><p><code>P-frames帧</code>:(差别帧，预测帧)保留这一帧跟之前帧的差别，解码时需要用之前缓存的画面叠加上本帧定义的差别，生成最终画面。（P帧没有完整画面数据，只有与前一帧的画面差别的数据）</p>
+</li>
+<li><p><code>B-frames帧</code>:(双向差别帧)保留的是本帧与前后帧的差别，解码B帧，不仅要取得之前的缓存画面，还要解码之后的画面，通过前后画面的与本帧数据的叠加取得最终的画面。B帧压缩率高，但是解码时CPU会比较累</p>
+</li>
+<li><p><code>帧内（Intraframe）压缩</code>:当压缩一帧图像时，仅考虑本帧的数据而不考虑相邻帧之间的冗余信息,帧内一般采用有损压缩算法（帧内压缩通过消除包含在每个独立视频帧内的色彩及结构中的冗余信息来进行压缩，因此可在不降低图片质量的情况下尽可能缩小尺寸，这类压缩同JEPG压缩原理类似。但通常用于对原始图片的一部分进行处理以生成极高质量的照片。通过这一过程创建的帧称为I-frames）</p>
+</li>
+<li><p><code>帧间（Interframe）压缩</code>:时间压缩（Temporal compression），它通过比较时间轴上不同帧之间的数据进行压缩。帧间压缩一般是无损的(在帧内压缩中，很多帧被组合在一起作为一组图片（简称GOP），对于GOP所存在的时间维度的冗余可以被消除。如果想象视频文件中的经典场景，就会有一些特定运动元素的概念，比如行驶的汽车或街上走路的行人，场景的背景环境通常是固定的，固定的背景环境就代表一个时间维度上的冗余，这个冗余就可以通过压缩方式消除)</p>
+</li>
+</ul>
+<p>*<code>muxing（合成）</code>：将视频流、音频流甚至是字幕流封装到一个文件中(容器格式（<code>FLV</code>，<code>TS</code>）)，作为一个信号进行传输。</p>
+<h4 id="以上就是视频开发中了解的基本知识点，下面几篇文章我会每个文章都会深入的去描述项目中经常用到的类"><a href="#以上就是视频开发中了解的基本知识点，下面几篇文章我会每个文章都会深入的去描述项目中经常用到的类" class="headerlink" title="以上就是视频开发中了解的基本知识点，下面几篇文章我会每个文章都会深入的去描述项目中经常用到的类"></a>以上就是视频开发中了解的基本知识点，下面几篇文章我会每个文章都会深入的去描述项目中经常用到的类</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/MExuanHe/MExuanHe.github.io/2018/10/01/AVFoundation%E5%85%A5%E9%97%A8/" data-id="ckamqc2zd00056z76g2efd74s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/MExuanHe.github.io/2018/10/26/AVFoundation%20%E6%96%87%E6%9C%AC%E8%BD%AC%E8%AF%AD%E9%9F%B3%E5%92%8C%E9%9F%B3%E9%A2%91%E5%BD%95%E5%88%B6%20%E6%92%AD%E6%94%BE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          AVFoundation 文本转语音和音频录制 播放
+        
+      </div>
+    </a>
+  
+  
+    <a href="/MExuanHe.github.io/2018/03/26/JAVA%EF%BC%88%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JAVA（本地服务器配置微信支付）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/12/26/%E4%BD%BF%E7%94%A8SceneKit%E6%A1%86%E6%9E%B6%E6%9D%A5%E5%8A%A0%E8%BD%BD3D%E5%BC%95%E6%93%8E/">使用SceneKit框架来加载3D引擎</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/07/24/iOS%E6%97%A0%E4%BE%B5%E5%85%A5%E7%9A%84%E5%9F%8B%E7%82%B9%E6%96%B9%E6%A1%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F/">iOS无侵入的埋点方案如何实现？</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/">iOS降低APP崩溃率</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/">组件之间的通讯（Target-Action）</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/">组件化实战篇（私有库）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/MExuanHe.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/MExuanHe.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/MExuanHe.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/MExuanHe.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

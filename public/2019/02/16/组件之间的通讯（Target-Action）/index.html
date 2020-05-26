@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>组件之间的通讯（Target-Action） | 背水一战</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是组件间通讯? 比如现在有很多业务组件, 在另外一个组件内部需要调用另外一个组件中的服务, 或者打开另外一个组件中的控制器, 并传值  iOS业界讨论组件化方案甚多，大体来说有3种。  Protocol注册方案 URL注册方案 Target-Action runtime调用方案  MGJRoute方案URL注册方案 蘑菇街 App 的组件化之路 已经说的很清楚了 可以去看下 原理：  通过ur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组件之间的通讯（Target-Action）">
+<meta property="og:url" content="https://github.com/MExuanHe/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/index.html">
+<meta property="og:site_name" content="背水一战">
+<meta property="og:description" content="什么是组件间通讯? 比如现在有很多业务组件, 在另外一个组件内部需要调用另外一个组件中的服务, 或者打开另外一个组件中的控制器, 并传值  iOS业界讨论组件化方案甚多，大体来说有3种。  Protocol注册方案 URL注册方案 Target-Action runtime调用方案  MGJRoute方案URL注册方案 蘑菇街 App 的组件化之路 已经说的很清楚了 可以去看下 原理：  通过ur">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cb1e0b80dee.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cb1e5814e97.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cb1e570d952.png">
+<meta property="article:published_time" content="2019-02-15T16:46:02.000Z">
+<meta property="article:modified_time" content="2020-05-26T02:04:27.923Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cb1e0b80dee.png">
+  
+    <link rel="alternate" href="/MExuanHe.github.io/atom.xml" title="背水一战" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/MExuanHe.github.io/" id="logo">背水一战</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/MExuanHe.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/MExuanHe/MExuanHe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-组件之间的通讯（Target-Action）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/" class="article-date">
+  <time datetime="2019-02-15T16:46:02.000Z" itemprop="datePublished">2019-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      组件之间的通讯（Target-Action）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="什么是组件间通讯"><a href="#什么是组件间通讯" class="headerlink" title="什么是组件间通讯?"></a>什么是组件间通讯?</h1><ul>
+<li>比如现在有很多业务组件, 在另外一个组件内部需要调用另外一个组件中的服务, 或者打开另外一个组件中的控制器, 并传值</li>
+</ul>
+<p><strong>iOS业界讨论组件化方案甚多，大体来说有3种。</strong></p>
+<ul>
+<li>Protocol注册方案</li>
+<li>URL注册方案</li>
+<li>Target-Action runtime调用方案</li>
+</ul>
+<h4 id="MGJRoute方案"><a href="#MGJRoute方案" class="headerlink" title="MGJRoute方案"></a>MGJRoute方案</h4><p>URL注册方案 <strong><a href="https://link.jianshu.com/?t=http://limboy.me/tech/2016/03/10/mgj-components.html" target="_blank" rel="noopener">蘑菇街 App 的组件化之路</a></strong> 已经说的很清楚了 可以去看下</p>
+<p>原理：</p>
+<ul>
+<li>通过url注册服务, 其他地方通过url, 获取服务</li>
+<li>框架在维护一个url-block的表格</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>每个业务组件, 都需要依赖这个框架</li>
+<li>url维护成本高 硬解码</li>
+<li>可以在组件内部任何地方调用/注册服务, 没有必要统一组件接口服务</li>
+</ul>
+<h4 id="target-action方案"><a href="#target-action方案" class="headerlink" title="target-action方案"></a>target-action方案</h4><p>原理：</p>
+<ul>
+<li>每个组件, 提供一个统一披露的接口文件</li>
+<li>额外的维护一个中间件的分类扩展（在此处进行硬解码 通过运行时进行物理解耦）</li>
+<li>其他地方通过target-action;的方案进行交互</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>集约</li>
+<li>统一了组件api服务</li>
+<li>组件与框架之间无依赖关系</li>
+<li>需要额外维护中间件类扩展</li>
+</ul>
+<h4 id="Protocol方案-暂无了解"><a href="#Protocol方案-暂无了解" class="headerlink" title="Protocol方案  暂无了解"></a>Protocol方案  暂无了解</h4><h2 id="本文-主要讲解-target-action-方案"><a href="#本文-主要讲解-target-action-方案" class="headerlink" title="本文 主要讲解 target-action 方案"></a>本文 主要讲解 <a href="https://github.com/MExuanHe/Target-Action-Dome">target-action</a> 方案</h2><p><strong>侵入性问题</strong><br>正如你所见，CTMediator组件化方案的实施非常安全。因为它并不存在任何侵入性的代码修改。<br>对于响应者来说，什么代码都不用改，只需要包一层Target-Action即可。<br>对于调用者来说，只需要把调用方式换成CTMediator调用即可，其改动也不涉及原有的业务逻辑，所以是十分安全的。</p>
+<p><strong>注册问题</strong><br>CTMediator没有任何注册逻辑的代码，避免了注册文件的维护和管理。Category给到的方法很明确地告知了调用者应该如何调用。</p>
+<p>例如给到的</p>
+<pre><code>- (UIViewController *)goodsDetailViewControllerWithGoodsId:(NSString *)goodsId goodsName:(NSString *)goodsName;</code></pre><p>方法。这能够让工程师一眼就能够明白使用方式，而不必抓瞎拿着URL再去翻文档。<br>这可以很大程度提高工作效率，同时降低维护成本。</p>
+<p>下面是我做的项目Dome结构<img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cb1e0b80dee.png" alt="Snip20180403_5.png"></p>
+<p>我们主要是依赖<code>CTMediator</code>  这个中间件 </p>
+<p>工具类中主要使用如下方法</p>
+<pre><code>- (id)performTarget:(NSString *)targetName action:(NSString *)actionName params:(NSDictionary *)params shouldCacheTarget:(BOOL)shouldCacheTarget</code></pre><p>方法内部使用Runtime调用  需要传三个参数 </p>
+<ul>
+<li>当前需要调用的类名  （字符串）</li>
+<li>当前需要调用类的方法名 （字符串）</li>
+<li>需要传的参数 （字典形式） </li>
+</ul>
+<pre><code># 通过Runtime  把字符串 转换类
+Class targetClass = NSClassFromString(ClassString);
+id  target = [[targetClass alloc] init];
+
+# 把字符串转换成事件
+SEL action = NSSelectorFromString(actionString);
+
+# 如果当前类中有这个事件 那就执行这个事件 把需要的参数传值 
+if ([target respondsToSelector:action]) {
+    return [target performSelector:action withObject:params];
+} </code></pre><p>下面是一个组件的结构<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cb1e5814e97.png" alt="Snip20180403_6.png"></p>
+<p>我们当前 <code>TAConfirmOrder</code>  组件中</p>
+<ul>
+<li><code>TAConfirmOrderViewController</code> 是业务组件 </li>
+<li><code>Target_TAConfirmOrder</code> 是每个组件, 提供一个统一披露的接口文件  </li>
+<li><code>CTMediator+TAConfirmOrder</code> 是额外的维护一个中间件的分类扩展</li>
+<li>组件与框架之间无依赖关系，我们需要额外维护中间件类扩展就可以了</li>
+</ul>
+<p>我们只需要把类名和类中的方法名 告诉这个分类扩展就行了<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34cb1e570d952.png" alt="Snip20180403_7.png"></p>
+<p>最后  <a href="https://github.com/MExuanHe/Target-Action-Dome">Dome 地址</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/MExuanHe/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/" data-id="ckamqc2za00026z766lyrdyb0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS降低APP崩溃率
+        
+      </div>
+    </a>
+  
+  
+    <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">组件化实战篇（私有库）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/12/26/%E4%BD%BF%E7%94%A8SceneKit%E6%A1%86%E6%9E%B6%E6%9D%A5%E5%8A%A0%E8%BD%BD3D%E5%BC%95%E6%93%8E/">使用SceneKit框架来加载3D引擎</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/07/24/iOS%E6%97%A0%E4%BE%B5%E5%85%A5%E7%9A%84%E5%9F%8B%E7%82%B9%E6%96%B9%E6%A1%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F/">iOS无侵入的埋点方案如何实现？</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/">iOS降低APP崩溃率</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/">组件之间的通讯（Target-Action）</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/">组件化实战篇（私有库）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/MExuanHe.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/MExuanHe.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/MExuanHe.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/MExuanHe.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

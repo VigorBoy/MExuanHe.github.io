@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>组件化实战篇（私有库） | 背水一战</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前沿本片文章主要讲解我们项目中为什么要组件化  组件化的好处 怎么使用组件化  怎么实现组件化 为什么要组件化 随着项目的更新迭代  项目代码越来越复杂   每个模块之间相互依赖 更改一处代码 有可能要更改跟这段代码耦合度非常高的多处代码 导致增加了我们的开发时间  增加了不必要的麻烦  使用组件化 可以把业务模块 共同的功能性代码和基础代码 分离出来 单独管理  每个开发人员只负责维护自己的模块">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组件化实战篇（私有库）">
+<meta property="og:url" content="https://github.com/MExuanHe/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/index.html">
+<meta property="og:site_name" content="背水一战">
+<meta property="og:description" content="前沿本片文章主要讲解我们项目中为什么要组件化  组件化的好处 怎么使用组件化  怎么实现组件化 为什么要组件化 随着项目的更新迭代  项目代码越来越复杂   每个模块之间相互依赖 更改一处代码 有可能要更改跟这段代码耦合度非常高的多处代码 导致增加了我们的开发时间  增加了不必要的麻烦  使用组件化 可以把业务模块 共同的功能性代码和基础代码 分离出来 单独管理  每个开发人员只负责维护自己的模块">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e48c81b1.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e92cdb69.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e974dd06.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82ea6a9dec.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e8ccb385.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82ea5e3fe4.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c8308a7f943.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c830cbf6450.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c830cb5ec76.jpeg">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c830ecec917.jpeg">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c83125f00a0.jpeg">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c83141fa7b9.jpeg">
+<meta property="article:published_time" content="2019-01-25T16:37:55.000Z">
+<meta property="article:modified_time" content="2020-05-26T02:04:13.901Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e48c81b1.png">
+  
+    <link rel="alternate" href="/MExuanHe.github.io/atom.xml" title="背水一战" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/MExuanHe.github.io/" id="logo">背水一战</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/MExuanHe.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/MExuanHe/MExuanHe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-组件化实战篇（私有库）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/" class="article-date">
+  <time datetime="2019-01-25T16:37:55.000Z" itemprop="datePublished">2019-01-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      组件化实战篇（私有库）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前沿"><a href="#前沿" class="headerlink" title="前沿"></a><strong>前沿</strong></h1><p>本片文章主要讲解我们项目中为什么要组件化  组件化的好处 怎么使用组件化  怎么实现组件化</p>
+<h1 id="为什么要组件化"><a href="#为什么要组件化" class="headerlink" title="为什么要组件化"></a><strong>为什么要组件化</strong></h1><ul>
+<li>随着项目的更新迭代  项目代码越来越复杂   每个模块之间相互依赖 更改一处代码 有可能要更改跟这段代码耦合度非常高的多处代码 导致增加了我们的开发时间  增加了不必要的麻烦 </li>
+<li>使用组件化 可以把业务模块 共同的功能性代码和基础代码 分离出来 单独管理  每个开发人员只负责维护自己的模块就可以了  不仅节省了开发周期  还大大降低了维护成本</li>
+</ul>
+<h1 id="组件化的细想"><a href="#组件化的细想" class="headerlink" title="组件化的细想"></a><strong>组件化的细想</strong></h1><p> 就好比封装控件，复杂的控件一般都会封装，组件化只不过是把每个模块单独抽出来，作为一个小工程，然后在组成一个一个完整的项目</p>
+<h1 id="组件化的实现"><a href="#组件化的实现" class="headerlink" title="组件化的实现"></a><strong>组件化的实现</strong></h1><ul>
+<li>在项目当中我们使用Cocoapod来管理我们的组件化开发</li>
+</ul>
+<ol>
+<li><p>打开终端 创建一个XXX项目工程<br>cd 到一个文件跟目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod lib create xxx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置下工程信息<img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e48c81b1.png" alt="3f7f401-5c21-4ac9-9c8c-e7640ec11d81.png"></p>
+</li>
+<li><p>工程配置完成 我们把我们需要的项目组件拖入到我们工程的Classes文件中  然后 cd 进入到Example 文件中 <code>pod install</code> 安装下我们的组件 <img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e92cdb69.png" alt="Snip20180402_9.png"></p>
+</li>
+</ol>
+<p>为什么要<code>pod install</code>,因为不重新<code>pod install</code>   Example工程根本不知道Pod更新了，<code>pod install</code>的作用：重新让pod库与所依赖的工程文件产生关联<br>打开  Example 文件中的项目 Command+B 一下 如果没有问题 就说明集成成功</p>
+<ol start="4">
+<li>配置描述文件   <strong>podspec</strong><br>这里需要重点说一下 <strong>podspec 文件</strong>  </li>
+</ol>
+<p><strong>podspec</strong> : 描述自己组件工程的代码目录和资源目录在哪，还有自己组件工程所依赖其他框架，到时候就会根据podspec的指引去引入自己的仓库代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 创建pod索引库，固定写法,并且定义索引库的名字为s,后续通过s，就能拿到索引库</span><br><span class="line">    Pod::Spec.new do |s|</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置名称</span><br><span class="line">      s.name         &#x3D; &quot;tcggMain&quot;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置版本号</span><br><span class="line">      s.version      &#x3D; &quot;0.0.1&quot;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置摘要</span><br><span class="line">      s.summary      &#x3D; &quot;A short description of tcggMain.&quot;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置详情</span><br><span class="line">      s.description  &#x3D; &quot;Good&quot;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置仓库主页</span><br><span class="line">      s.homepage     &#x3D; &quot;http:&#x2F;&#x2F;xxxx&#x2F;xxxx&quot;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置许可证</span><br><span class="line">      s.license      &#x3D; &quot;MIT&quot;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置作者</span><br><span class="line">      s.author             &#x3D; &#123; &quot;iThinkerYZ&quot; &#x3D;&gt; &quot;xxxx@qq.com&quot; &#125;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置仓库源,表示在哪可以找到组件工程</span><br><span class="line">      s.source       &#x3D; &#123; :git &#x3D;&gt; &quot;xxxxx&quot;, :tag &#x3D;&gt; &quot;#&#123;s.version&#125;&quot; &#125;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F; 设置 源文件路径 &#x3D;&gt; 不是整个工程的文件，而是自己封装的代码，以后别的工程引入，就会引入这里的代码。</span><br><span class="line">      s.source_files  &#x3D; &quot;tcggMain&#x2F;Classes&#x2F;**&#x2F;*.&#123;h,m&#125;&quot;</span><br><span class="line">    </span><br><span class="line">     &#x2F;&#x2F; s.dependency &#x3D; &#39;&#39; 组件工程依赖哪些第三方框架</span><br><span class="line">     &#x2F;&#x2F; s.frameworks &#x3D; &#39;UIKit&#39;, &#39;MapKit&#39; 组件工程依赖哪些原生框架</span><br><span class="line">     &#x2F;&#x2F; s.resource_bundles &#x3D; &#123;&#125; 组件工程图片资源</span><br><span class="line">     </span><br><span class="line">    end</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.jianshu.com/p/f841e248bc4f" target="_blank" rel="noopener">PodSpec</a></p>
+<ol start="5">
+<li>本地组件配置完成之后 就需要把本地的组件上传的远程私有仓库（ 上传的代码就不贴出来了 网上有很多 ）</li>
+</ol>
+<p><strong>注意点</strong>：<code>push</code> 远程仓库的时候 一定要打<code>tag</code>  并且<code>tag</code>的版本号要跟Spec文件中 <code>s.version</code> 的版本号一致 因为cocoapods是根据代码仓库的<code>tag</code>,去下载对应<code>tag</code>的远程代码库的</p>
+<p>6.在本地Cocoapods索引库中创建我们私有组件的索引库文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pod repo add 私有组件名称 索引库远程地址</span><br><span class="line">pod repo add TcggBase https:&#x2F;&#x2F;git.coding.net&#x2F;XUser&#x2F;TccBase.git</span><br></pre></td></tr></table></figure>
+<p>如果不想使用命令行输入的话  我们也可以手动创建<br> –  找到本地的cocoapods 的地址  在 <code>repos</code> 文件中创建一个 <code>TcggBase</code> 文件<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e974dd06.png" alt="Snip20180402_14.png"></p>
+<ol start="7">
+<li>把自己私有库的索引添加到自己私有库中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pod repo push 索引库名称 当前组件中podspec文件全称</span><br><span class="line">pod repo push TcggBase TcggBase.podspec --allow-warnings</span><br></pre></td></tr></table></figure>
+本地索引库就会有自己的私有库，并且远程也会有，<code>pod repo push</code>    会帮我们推送到远程索引库<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82ea6a9dec.png" alt="Snip20180402_15.png"></li>
+</ol>
+<p>打开本地cocoapods中自己的私有库索引地址 发现里面已经有了 我们自己的私有库索引  <code>0.1.0 是我们的版本号 cocoapod 会根据Spec文件中的tag 创建相对应的文件名称</code></p>
+<p>如果 <code>Push</code> 中出现的错误 我们也可以手动去上传<br>在cocoapods 本地索引库中 找到我们自己创建的索引库  在我们自己创建的索引库中 我们手动创建我们跟当前Spec文件中 描述的版本号相符的文件  文件名字就是我们当前组件的版本号   在把我们自己组件中的Spec文件复制 拷贝到当前的文件中去 就行了</p>
+<p>######使用自己的私有索引仓库<br>在 <code>Podfile</code>  文件中 添加两个 source 一个是cocoapods 公有的索引库源  一个是我们自己的索引库源  然后我们在<code>pod &#39;xxx&#39;</code>  <code>pod install</code>  就可以了<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82e8ccb385.png" alt="Snip20180402_17.png"></p>
+<h1 id="组件化升级"><a href="#组件化升级" class="headerlink" title="组件化升级"></a>组件化升级</h1><ul>
+<li>只需要把最新的版本代码绑定tag,更新Podspec文件，重新上传到版本索引库就好了<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod repo push xxxx xxxx.podspec --allow-warnings</span><br></pre></td></tr></table></figure></li>
+<li>工程文件在使用的时候，使用pod update 就能加载最新版本组件代码.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod update --no-repo-update</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Cocopods原理"><a href="#Cocopods原理" class="headerlink" title="Cocopods原理"></a>Cocopods原理</h1><p>1.根据Podfile描述，找到对应代码库的描述文件podspec<br>2.podspec中描述，去哪（s.source）才能找到代码库，并且找到之后，需要拷贝哪些文件（s.source_files）到自己的工程中。</p>
+<h1 id="组件化中遇到的一些问题"><a href="#组件化中遇到的一些问题" class="headerlink" title="组件化中遇到的一些问题"></a>组件化中遇到的一些问题</h1><h6 id="加载XIB文件报错"><a href="#加载XIB文件报错" class="headerlink" title="加载XIB文件报错"></a>加载XIB文件报错</h6><p><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c82ea5e3fe4.png" alt="02576880-5A64-4125-AD02-2D6639931103.png"></p>
+<p>回到代码查看一下，原来加载XIB的方式如下<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c8308a7f943.png" alt="BC46FF90-7496-4DB7-86D0-BD080AF2AB9C.png"><br>显然通过加载上面的bundle的方式加载不到XIB，需要重新设置budle的路径，修改如下：<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c830cbf6450.png" alt="55D1EFCD-B138-4AF9-B5BB-DD8F7878BFB1.png"></p>
+<h3 id="图片资源加载问题"><a href="#图片资源加载问题" class="headerlink" title="图片资源加载问题"></a>图片资源加载问题</h3><p>把组件中需要的图片存放到<code>Assets</code>中<img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c830cb5ec76.jpeg" alt="4A887AAA-B538-464B-A71E-5E6E8DBAD536.png"></p>
+<p>需要修改<code>.podspec</code>文件，打开资源的加载路径，然后执行<code>pod install</code>。然后会发现多了一个<code>Resource</code>的资源文件夹<img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c830ecec917.jpeg" alt="FD4D7ECF-48C2-47BE-BBF6-9C708C6B0B70.png"></p>
+<p>需要改变图片的加载方式<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c83125f00a0.jpeg" alt="94BC756A-0218-4662-BB14-5FEC4FC9E532.png"></p>
+<p>说明：必须指明图片的全名和图片所在<code>bundle</code>的包名<br>因为涉及到@2x，@3x图片这里不能写成固定的，应该按照scale来设置<img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/16a34c83141fa7b9.jpeg" alt="02A9C836-51EF-4CC4-A26D-F346904B8717.png"></p>
+<p>因为之前设置图片的方式都需要修改，上面修改图片加载方式的代码在很多地方都会用到，所以最好的做法就是抽取一个工具方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)ff_imagePathWithName:(NSString *)imageName bundle:(NSString *)bundle targetClass:(Class)targetClass</span><br><span class="line">&#123;</span><br><span class="line">        NSInteger scale &#x3D; [[UIScreen mainScreen] scale];</span><br><span class="line">        NSBundle *currentBundle &#x3D; [NSBundle bundleForClass:targetClass];</span><br><span class="line">        NSString *name &#x3D; [NSString stringWithFormat:@&quot;%@@%zdx&quot;,imageName,scale];</span><br><span class="line">        NSString *dir &#x3D; [NSString stringWithFormat:@&quot;%@.bundle&quot;,bundle];</span><br><span class="line">        NSString *path &#x3D; [currentBundle pathForResource:name ofType:@&quot;png&quot; inDirectory:dir];</span><br><span class="line">        return path ? [UIImage imageWithContentsOfFile:path] : nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="修改字体"><a href="#修改字体" class="headerlink" title="修改字体"></a>修改字体</h3><p>将字体相关文件也拖入到<code>Assets</code>文件夹下，然后修改一下<code>podspec</code>文件。最后执行<code>pod install</code>把字体资源<code>pod</code>进来。<br>接着在原来设置字体的地方做相应的修改，和修改图片资源路径的方式相似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">_categoryLabel &#x3D; [[UILabel alloc]init];</span><br><span class="line"> NSBundle *currentBundle &#x3D; [NSBundle bundleForClass:[self class]];</span><br><span class="line"> NSString *path &#x3D; [currentBundle pathForResource:@&quot;CODE BOLD.OTF&quot; ofType:nil inDirectory:@&quot;FFSpecialKit”];</span><br><span class="line"> [_categoryLabel text:nil textColor:kHexColor_c7a762 fontSize:FONT_SIZE_14 fontName:path];</span><br></pre></td></tr></table></figure>
+
+<h5 id="下一篇"><a href="#下一篇" class="headerlink" title="下一篇"></a>下一篇</h5><p><strong><a href="https://www.jianshu.com/p/596d4efbbccb" target="_blank" rel="noopener">组件化之间的通讯</a></strong> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/MExuanHe/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/" data-id="ckamqc2zb00036z76382g6wx2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          组件之间的通讯（Target-Action）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/MExuanHe.github.io/2018/10/26/AVFoundation%20%E6%96%87%E6%9C%AC%E8%BD%AC%E8%AF%AD%E9%9F%B3%E5%92%8C%E9%9F%B3%E9%A2%91%E5%BD%95%E5%88%B6%20%E6%92%AD%E6%94%BE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">AVFoundation 文本转语音和音频录制 播放</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/12/26/%E4%BD%BF%E7%94%A8SceneKit%E6%A1%86%E6%9E%B6%E6%9D%A5%E5%8A%A0%E8%BD%BD3D%E5%BC%95%E6%93%8E/">使用SceneKit框架来加载3D引擎</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/07/24/iOS%E6%97%A0%E4%BE%B5%E5%85%A5%E7%9A%84%E5%9F%8B%E7%82%B9%E6%96%B9%E6%A1%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F/">iOS无侵入的埋点方案如何实现？</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/">iOS降低APP崩溃率</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/">组件之间的通讯（Target-Action）</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/">组件化实战篇（私有库）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/MExuanHe.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/MExuanHe.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/MExuanHe.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/MExuanHe.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

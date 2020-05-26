@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS降低APP崩溃率 | 背水一战</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作为一个资深的技术团队，app的性能是我们技术团队首要的任务，其中最主要的一项就是app的崩溃率。目前虽然不能把系统所有的crash都处理掉，不过一些常见的高频次发生的crash，系统都会处理。目前主要可以处理掉的crash类型有一下几种：  unrecognized selector crash KVO crash NSNotification crash NSTimer crash Conta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS降低APP崩溃率">
+<meta property="og:url" content="https://github.com/MExuanHe/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/index.html">
+<meta property="og:site_name" content="背水一战">
+<meta property="og:description" content="作为一个资深的技术团队，app的性能是我们技术团队首要的任务，其中最主要的一项就是app的崩溃率。目前虽然不能把系统所有的crash都处理掉，不过一些常见的高频次发生的crash，系统都会处理。目前主要可以处理掉的crash类型有一下几种：  unrecognized selector crash KVO crash NSNotification crash NSTimer crash Conta">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/MExuanHe.github.io/fancybox/images/rootsearch.png">
+<meta property="og:image" content="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/170d3ef056e30b35.png">
+<meta property="og:image" content="https://github.com/MExuanHe.github.io/fancybox/images/170d3ef057740bea.png">
+<meta property="og:image" content="https://github.com/MExuanHe.github.io/fancybox/images/170d3ef058373d96.png">
+<meta property="article:published_time" content="2019-03-24T14:53:08.000Z">
+<meta property="article:modified_time" content="2020-05-26T02:05:20.273Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/MExuanHe.github.io/fancybox/images/rootsearch.png">
+  
+    <link rel="alternate" href="/MExuanHe.github.io/atom.xml" title="背水一战" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/MExuanHe.github.io/" id="logo">背水一战</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/MExuanHe.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/MExuanHe.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/MExuanHe/MExuanHe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iOS降低APP崩溃率" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/" class="article-date">
+  <time datetime="2019-03-24T14:53:08.000Z" itemprop="datePublished">2019-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS降低APP崩溃率
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为一个资深的技术团队，app的性能是我们技术团队首要的任务，其中最主要的一项就是app的崩溃率。<br>目前虽然不能把系统所有的crash都处理掉，不过一些常见的高频次发生的crash，系统都会处理。目前主要可以处理掉的crash类型有一下几种：</p>
+<ul>
+<li>unrecognized selector crash</li>
+<li>KVO crash</li>
+<li>NSNotification crash</li>
+<li>NSTimer crash</li>
+<li>Container crash（数组越界，插nil等）</li>
+<li>NSString crash （字符串操作的crash）</li>
+<li>UI not on Main Thread Crash (非主线程刷UI(机制待改善))<h5 id="下面会一一讲解如何解决这些carsh"><a href="#下面会一一讲解如何解决这些carsh" class="headerlink" title="下面会一一讲解如何解决这些carsh"></a>下面会一一讲解如何解决这些carsh</h5></li>
+</ul>
+<h2 id="unrecognized-selector-crash"><a href="#unrecognized-selector-crash" class="headerlink" title="unrecognized selector crash"></a>unrecognized selector crash</h2><p>unrecognized selector类型的crash是经常发生的carsh，我们要解决这个carsh就必须先了解它产生的具体原因和流程。</p>
+<p>什么时候会报unrecognized selector的异常？</p>
+<p>objc在向一个对象发送消息时，runtime库会根据对象的isa指针找到该对象实际所属的类，然后在该类中的方法列表以及其父类方法列表中寻找方法运行，如果，在最顶层的父类中依然找不到相应的方法时，程序在运行时会挂掉并抛出异常unrecognized selector sent to XXX</p>
+<p>在找不到方法时，查找方法将会进入方法Forward流程,系统给了三次补救的机会，所以我们要解决这个问题，在这三次均可以解决这个问题<br><img src="/MExuanHe.github.io/fancybox/images/rootsearch.png" alt="图片"><br>由上图可见，在一个函数找不到时，runtime提供了三种方式去补救：</p>
+<p>1、调用resolveInstanceMethod给个机会让类添加这个实现这个函数<br>2、调用forwardingTargetForSelector让别的对象去执行这个函数<br>3、调用forwardInvocation（函数执行器)灵活的将目标函数以其他形式执行。</p>
+<p>如果都不中，调用doesNotRecognizeSelector抛出异常。既然可以补救,我们可以用消息转发机制来做，我们选择了第二步forwardingTargetForSelector来做，原因如下：</p>
+<p>1、resolveInstanceMethod 需要在类的本身上动态添加它本身不存在的方法，这些方法对于该类本身来说冗余的</p>
+<p>2、forwardInvocation可以通过NSInvocation的形式将消息转发给多个对象，但是其开销较大，需要创建新的NSInvocation对象，并且forwardInvocation的函数经常被使用者调用，来做多层消息转发选择机制，不适合多次重写</p>
+<p>3、forwardingTargetForSelector可以将消息转发给一个对象，开销较小，并且被重写的概率较低，适合重写<br>选择了forwardingTargetForSelector之后，可以将NSObject的该方法重写</p>
+<p>做以下几步的处理：</p>
+<p>1、动态创建一个桩类</p>
+<p>2、动态为桩类添加对应的Selector，用一个通用的返回0的函数来实现该SEL的IMP</p>
+<p>3、将消息直接转发到这个桩类对象上。<br>流程图如下：<br><img src="https://github.com/MExuanHe/MExuanHe.github.io/raw/master/fancybox/images/170d3ef056e30b35.png" alt="图片2"><br>注意如果对象的类本事如果重写了forwardInvocation方法的话，就不应该对forwardingTargetForSelector进行重写了，否则会影响到该类型的对象原本的消息转发流程。</p>
+<p>通过重写NSObject的forwardingTargetForSelector方法，我们就可以将无法识别的方法进行拦截并且将消息转发到安全的桩类对象中，从而可以使app继续正常运行。</p>
+<h2 id="KVO-crash"><a href="#KVO-crash" class="headerlink" title="KVO crash"></a>KVO crash</h2><p>如果观察者和keypath的数量一多，很容易理不清楚被观察对象整个KVO关系，导致被观察者在dealloc的时候，还残存着一些关系没有被注销。 同时还会导致KVO注册观察者与移除观察者不匹配的情况发生。<br>那么如何来管理混乱的KVO关系呢。可以让被观察对象持有一个KVO的delegate，所有和KVO相关的操作均通过delegate来进行管理，delegate通过建立一张map来维护KVO整个关系<br>这样做的好处有两个：</p>
+<p>1、如果出现KVO重复添加观察者或重复移除观察者（KVO注册观察者与移除观察者不匹配）的情况，delegate可以直接阻止这些非正常的操作。</p>
+<p>2、被观察对象dealloc之前，可以通过delegate自动将与自己有关的KVO关系都注销掉，避免了KVO的被观察者dealloc时仍然注册着KVO导致的crash。<br>被swizzle的方法分别是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)addObserver:(NSObject *)observer </span><br><span class="line">			forKeyPath:(NSString *)keyPath</span><br><span class="line">			 	options:(NSKeyValueObservingOptions)options </span><br><span class="line">			 	context:(nullable void *)context;</span><br><span class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</span><br><span class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change context:(nullable void *)context;</span><br></pre></td></tr></table></figure>
+
+<p>关于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)addObserver:(NSObject *)observer </span><br><span class="line">			forKeyPath:(NSString *)keyPath</span><br><span class="line">			 	options:(NSKeyValueObservingOptions)options </span><br><span class="line">			 	context:(nullable void *)context;</span><br></pre></td></tr></table></figure>
+<p><strong>方法改造流程如下图：</strong><br><img src="/MExuanHe.github.io/fancybox/images/170d3ef057740bea.png" alt="图片3.png"><br>通过上面的流程，将observerd对象的所有kvo相关的observer信息全部转移到KVOdelegate上，并且避免了相同kvoinfo被重复添加多次的可能性。<br>关于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)removeObserver:(NSObject *)observer</span><br><span class="line">            forKeyPath:(NSString *)keyPath</span><br><span class="line">               context:(void *)context</span><br></pre></td></tr></table></figure>
+<p>方法改造流程如下图：<br><img src="/MExuanHe.github.io/fancybox/images/170d3ef058373d96.png" alt="图片 4.png"><br>移除一个keypath的Observer时，当delegate的kvoInfoMap中找不到key为该keypath的时候，说明此时delegate并没有持有对应keypath的observer，即说明移除了一个不匹配的观察者，此时如果再继续操作会导致app崩溃，所以应该及时中断流程，然后统计异常信息。</p>
+<p>当keypath对应的KVOInfo列表（infoArray）为空的时候，说明此时delegate已经不再持有任何和keypath相关的observer了。这时应该调用原有removeObserver的方法将delegate对应的观察者移除。<br>注意到在检查遍历infoArray的时侯，除了要删除对应的info信息，还多了一步检查info.observer == nil的过程，是因为如果observer为nil，那么此时如果keypath对应的值变化的话，也会因为找不到observer而崩溃，所以需要做这一步来阻止该种情况的发生。</p>
+<h6 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath</span><br><span class="line">                      ofObject:(id)object</span><br><span class="line">                        change:(NSDictionary&lt;NSString *,id&gt; *)change</span><br><span class="line">                       context:(void *)context</span><br></pre></td></tr></table></figure>
+<p>delegate对于observeValueForKeyPath方法的修改最主要的地法规，在于将对应的响应方法转移给真正的KVO Observer，通过keyInfoMap找到keypath对应的KVOInfo里面预先存储好的observer，然后调用observer原本的响应方法</p>
+<p>同时在遍历InfoArray的时候，发现info.observerw == nil的时候，需要及时将其清除掉，避免KVO的观察者observer被释放后value变化导致的crash</p>
+<p>最后，针对 KVO的被观察者dealloc时仍然注册着KVO导致的crash 的情况</p>
+<p>可以将NSObject的dealloc swizzle， 在object dealloc的时候自动将其对应的kvodelegate所有和kvo相关的数据清空，然后将kvodelegate也置空。避免出现KVO的被观察者dealloc时仍然注册着KVO而产生的crash</p>
+<h2 id="NSNotification-crash"><a href="#NSNotification-crash" class="headerlink" title="NSNotification crash"></a>NSNotification crash</h2><p>当一个对象添加了notification之后，如果dealloc的时候，仍然持有notification，就会出现NSNotification类型的crash。</p>
+<p>利用method swizzling hook NSObject的dealloc函数，再对象真正dealloc之前先调用一下[[NSNotificationCenter defaultCenter] removeObserver:self] 即可。</p>
+<p>注意到并不是所有的对象都需要做以上的操作，如果一个对象从来没有被NSNotificationCenter 添加为observer的话，在其dealloc之前调用removeObserver完全是多此一举。 所以我们hook了NSNotificationCenter的addObserver:(id)observer selector:(SEL)aSelector name:(NSString *)aName object:(id)anObject 函数，在其添加observer的时候，对observer动态添加标记flag。这样在observer dealloc的时候，就可以通过flag标记来判断其是否有必要调用removeObserver函数了。</p>
+<h2 id="NSTimer-crash"><a href="#NSTimer-crash" class="headerlink" title="NSTimer crash"></a>NSTimer crash</h2><p>NSTimer存在以下问题:<br>•    Target是强引用，内存泄漏<br>•    在宿主不存在的时候，清理NSTimer</p>
+<p>解决方法: Hook NSTimer中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheduledTimerWithTimeInterval:target:selector:userInfo:repeats方法</span><br></pre></td></tr></table></figure>
+
+<p>1、当repeats为NO时，走原始方法<br>2、当repeats为YES时，新建一个对象，声明一个target属性为weak类型，指向参数的target,当中间对象的target为空时，清理NSTimer</p>
+<h2 id="Container-crash（数组越界，插nil等）"><a href="#Container-crash（数组越界，插nil等）" class="headerlink" title="Container crash（数组越界，插nil等）"></a>Container crash（数组越界，插nil等）</h2><p>Container 类型的crash 指的是容器类的crash</p>
+<p><strong>常见的有:</strong></p>
+<ul>
+<li>NSArray</li>
+<li>NSMutableArray</li>
+<li>NSDictionary</li>
+<li>NSMutableDictionary</li>
+<li>NSCache</li>
+</ul>
+<p>一些常见的越界，插入nil，等错误操作均会导致此类crash发生</p>
+<p>Container crash 类型的防护方案也比较简单,针对于NSArray／NSMutableArray／NSDictionary／NSMutableDictionary／NSCache的一些常用的会导致崩溃的API进行method swizzling，然后在swizzle的新方法中加入一些条件限制和判断，从而让这些API变的安全，这里就不展开来具体描述了。</p>
+<h2 id="NSString-crash-（字符串操作的crash）"><a href="#NSString-crash-（字符串操作的crash）" class="headerlink" title="NSString crash （字符串操作的crash）"></a>NSString crash （字符串操作的crash）</h2><p>NSString／NSMutableString 类型的crash的产生原因和防护方案与Container crash很相像，这里也不展开来描述了。</p>
+<h2 id="UI-not-on-Main-Thread-Crash-非主线程刷UI"><a href="#UI-not-on-Main-Thread-Crash-非主线程刷UI" class="headerlink" title="UI not on Main Thread Crash (非主线程刷UI)"></a>UI not on Main Thread Crash (非主线程刷UI)</h2><p>在非主线程刷UI将会导致app运行crash，有必要对其进行处理。 目前初步的处理方案是swizzle UIView类的以下三个方法：</p>
+<ul>
+<li>(void)setNeedsLayout;</li>
+<li>(void)setNeedsDisplay;</li>
+<li>(void)setNeedsDisplayInRect:(CGRect)rect;</li>
+</ul>
+<p>在这三个方法调用的时候判断一下当前的线程，如果不是主线程的话，直接利用<br>dispatch_async(dispatch_get_main_queue(), ^{<br>//调用原本方法<br>});</p>
+<p>来将对应的刷UI的操作转移到主线程上，同时统计错误信息。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/MExuanHe/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/" data-id="ckamlrppl0002xj76enr1a73j" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/MExuanHe.github.io/2019/07/24/iOS%E6%97%A0%E4%BE%B5%E5%85%A5%E7%9A%84%E5%9F%8B%E7%82%B9%E6%96%B9%E6%A1%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS无侵入的埋点方案如何实现？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">组件之间的通讯（Target-Action）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/MExuanHe.github.io/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/12/26/%E4%BD%BF%E7%94%A8SceneKit%E6%A1%86%E6%9E%B6%E6%9D%A5%E5%8A%A0%E8%BD%BD3D%E5%BC%95%E6%93%8E/">使用SceneKit框架来加载3D引擎</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/07/24/iOS%E6%97%A0%E4%BE%B5%E5%85%A5%E7%9A%84%E5%9F%8B%E7%82%B9%E6%96%B9%E6%A1%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F/">iOS无侵入的埋点方案如何实现？</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/03/24/iOS%E9%99%8D%E4%BD%8EAPP%E5%B4%A9%E6%BA%83%E7%8E%87/">iOS降低APP崩溃率</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/02/16/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF%EF%BC%88Target-Action%EF%BC%89/">组件之间的通讯（Target-Action）</a>
+          </li>
+        
+          <li>
+            <a href="/MExuanHe.github.io/2019/01/26/%E7%BB%84%E4%BB%B6%E5%8C%96%E5%AE%9E%E6%88%98%E7%AF%87%EF%BC%88%E7%A7%81%E6%9C%89%E5%BA%93%EF%BC%89/">组件化实战篇（私有库）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/MExuanHe.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/MExuanHe.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/MExuanHe.github.io/fancybox/jquery.fancybox.css">
+
+  
+<script src="/MExuanHe.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/MExuanHe.github.io/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
